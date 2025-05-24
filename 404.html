@@ -1,0 +1,65 @@
+---
+# Front matter for Jekyll processing
+layout: default
+permalink: /404.html
+title: "Page Not Found"
+---
+
+<style>
+  /* Simple styling for the 404 page */
+  .error-container {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .error-code {
+    font-size: 6rem;
+    color: #828282;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .error-message {
+    font-size: 1.5rem;
+    margin: 1rem 0 2rem;
+    color: #424242;
+  }
+  
+  .error-description {
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .home-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #2a7ae4;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .home-link:hover {
+    background-color: #1756a9;
+  }
+</style>
+
+<div class="error-container">
+  <h1 class="error-code">404</h1>
+  <h2 class="error-message">Page Not Found</h2>
+  
+  <p class="error-description">
+    The page you're looking for seems to have wandered off into the void. 
+    Perhaps it's still being written, or maybe it never existed at all.
+  </p>
+  
+  <p class="error-description">
+    <em>"Not all those who wander are lost."</em> — J.R.R. Tolkien<br>
+    But in this case, the page definitely is.
+  </p>
+  
+  <a href="{{ "/" | relative_url }}" class="home-link">Return Home</a>
+</div> 

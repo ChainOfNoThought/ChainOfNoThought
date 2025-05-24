@@ -1,0 +1,31 @@
+# Jekyll build output
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Bundler
+Gemfile.lock
+vendor/
+.bundle/
+
+# OS generated files
+.DS_Store
+*.swp
+*~
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (if used for asset processing)
+node_modules/
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.bak
+*.log 

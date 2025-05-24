@@ -1,0 +1,108 @@
+# Site Settings
+# These settings affect how your site appears and functions
+title: "My Writing Space"
+description: >-
+  A personal collection of essays and creative writing.
+  Simple, clean, and focused on the words.
+
+# CRITICAL: URL Configuration for GitHub Pages
+# Since this is a project site (not username.github.io), we need baseurl
+url: ""  # This will be set automatically by GitHub Pages
+baseurl: "/ChainOfNoThought"  # MUST match your repository name exactly
+
+# Language and timezone settings
+lang: "en"
+timezone: "America/New_York"  # Change to your timezone
+
+# Author information (optional but recommended)
+author:
+  name: "Your Name"
+  email: "your-email@example.com"  # Optional
+
+# Build settings
+markdown: kramdown  # Only markdown processor supported by GitHub Pages
+theme: minima       # Simple, clean theme perfect for writing
+
+# Only use GitHub Pages whitelisted plugins
+# See: https://pages.github.com/versions/
+plugins:
+  - jekyll-feed        # Creates RSS/Atom feeds for your posts
+  - jekyll-seo-tag     # Adds meta tags for better SEO
+  - jekyll-sitemap     # Generates sitemap.xml for search engines
+
+# Files and directories to exclude from build
+# This improves build performance
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .bundle/
+  - node_modules/
+  - README.md
+  - phased_implementation.md
+  - implementation_plan.md
+  - maintenance_guide.md
+  - sofar.md
+  - "*.sh"  # Exclude any shell scripts
+
+# Permalink structure for blog posts
+# This creates clean URLs like /2024/01/15/my-post/
+permalink: /:year/:month/:day/:title/
+
+# Enable strict front matter validation
+# This helps catch errors during development
+strict_front_matter: true
+
+# Collections for organizing different types of writing
+collections:
+  creative_writing:
+    output: true  # This creates a page for each piece
+    permalink: /creative/:title/
+
+# Default values to avoid repetition
+defaults:
+  # Default layout for all pages
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+  
+  # Specific defaults for blog posts
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Your Name"  # Change this to your name
+  
+  # Defaults for creative writing pieces
+  - scope:
+      path: ""
+      type: "creative_writing"
+    values:
+      layout: "post"
+      category: "creative"
+
+# Minima theme configuration
+# Keep it simple and readable
+minima:
+  # Date format for posts
+  date_format: "%B %-d, %Y"  # e.g., "January 15, 2024"
+  
+  # Social links (optional, remove if not needed)
+  # social_links:
+  #   twitter: your_username
+  #   github: your_username
+
+# Navigation menu
+# List the pages you want in your site navigation
+header_pages:
+  - about.md
+  - writing.md
+
+# Feed plugin settings
+feed:
+  posts_limit: 20  # Number of posts in RSS feed
+
+# Future-proofing
+future: true  # Publish posts with future dates 
