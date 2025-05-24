@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+<div class="home-container">
+  <h1>{{ page.title }}</h1>
+  
+  <div class="home-content">
+    {{ content }}
+  </div>
+  
+  <div class="writing-sections">
+    <div class="section-card">
+      <h2>Creative Writing</h2>
+      <p>Explore short stories, poems, and other creative works.</p>
+      <a href="{{ '/pages/creative-writing.html' | relative_url }}" class="button">Read More</a>
+    </div>
+    
+    <div class="section-card">
+      <h2>Essays</h2>
+      <p>Thoughts, reflections, and analyses on various topics.</p>
+      <a href="{{ '/pages/essays.html' | relative_url }}" class="button">Read More</a>
+    </div>
+  </div>
+</div> 

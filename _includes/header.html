@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="container">
+    <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+    
+    <nav class="site-nav">
+      <div class="nav-trigger">
+        <span></span>
+      </div>
+      
+      <div class="nav-links">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <div class="dropdown">
+          <a href="{{ '/pages/creative-writing.html' | relative_url }}" class="dropdown-trigger">Creative Writing</a>
+        </div>
+        <div class="dropdown">
+          <a href="{{ '/pages/essays.html' | relative_url }}" class="dropdown-trigger">Essays</a>
+        </div>
+        <a href="{{ '/pages/about.html' | relative_url }}">About</a>
+      </div>
+    </nav>
+  </div>
+</header> 

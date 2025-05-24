@@ -1,0 +1,31 @@
+---
+layout: default
+---
+
+<div class="collection-index">
+  <h1>{{ page.title }}</h1>
+  
+  <div class="collection-description">
+    {{ content }}
+  </div>
+  
+  <div class="writing-list">
+    {% if page.collection_name == "creative-writing" %}
+      {% assign items = site.creative-writing | sort: 'date' | reverse %}
+    {% elsif page.collection_name == "essays" %}
+      {% assign items = site.essays | sort: 'date' | reverse %}
+    {% endif %}
+    
+    {% for item in items %}
+      <div class="writing-item">
+        <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+        {% if item.date %}
+        <div class="date">{{ item.date | date: "%B %d, %Y" }}</div>
+        {% endif %}
+        {% if item.excerpt %}
+        <p class="excerpt">{{ item.excerpt }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div> 

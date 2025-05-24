@@ -1,0 +1,81 @@
+// Typography styles
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+  margin-top: 0;
+  color: $heading-color;
+}
+
+h1 {
+  font-size: $h1-size;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: $h2-size;
+  margin-bottom: 1.2rem;
+}
+
+h3 {
+  font-size: $h3-size;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: $body-size;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: $accent-color;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.site-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: $heading-color;
+  text-decoration: none;
+  
+  &:hover {
+    color: $accent-color;
+    text-decoration: none;
+  }
+}
+
+// Responsive typography
+@media (max-width: $tablet-width) {
+  h1 {
+    font-size: $h1-size * 0.9;
+  }
+  
+  h2 {
+    font-size: $h2-size * 0.9;
+  }
+  
+  h3 {
+    font-size: $h3-size * 0.9;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  h1 {
+    font-size: $h1-size * 0.8;
+  }
+  
+  h2 {
+    font-size: $h2-size * 0.8;
+  }
+  
+  h3 {
+    font-size: $h3-size * 0.8;
+  }
+  
+  p {
+    font-size: $body-size * 0.95;
+  }
+} 

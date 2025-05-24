@@ -1,0 +1,128 @@
+@import "variables";
+@import "typography";
+@import "navigation";
+@import "animations";
+
+// General styles
+body {
+  font-family: $body-font;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.content {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+}
+
+// Home page styles
+.home-container {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.home-content {
+  margin: 2rem 0;
+}
+
+.writing-sections {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.section-card {
+  background-color: $card-background;
+  border-radius: 5px;
+  padding: 1.5rem;
+  width: 300px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+// Button styles
+.button {
+  display: inline-block;
+  background-color: $accent-color;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+  
+  &:hover {
+    background-color: darken($accent-color, 10%);
+  }
+}
+
+// Collection index styles
+.collection-index {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.writing-list {
+  margin-top: 2rem;
+}
+
+.writing-item {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+  
+  h2 {
+    margin-bottom: 0.5rem;
+    
+    a {
+      text-decoration: none;
+      color: $heading-color;
+      
+      &:hover {
+        color: $accent-color;
+      }
+    }
+  }
+  
+  .date {
+    font-size: 0.9rem;
+    color: $secondary-text-color;
+    margin-bottom: 0.5rem;
+  }
+}
+
+// Writing piece styles
+.writing-piece {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.writing-header {
+  margin-bottom: 2rem;
+  
+  h1 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .date {
+    color: $secondary-text-color;
+  }
+}
+
+// Footer styles
+.site-footer {
+  background-color: $footer-background;
+  color: $footer-text-color;
+  padding: 1rem 0;
+  text-align: center;
+} 

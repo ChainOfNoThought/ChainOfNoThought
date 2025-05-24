@@ -1,0 +1,43 @@
+title: Chain Of No Thought
+description: A personal writing site
+url: "" # Will be set when deployed
+baseurl: "/ChainOfNoThought"
+markdown: kramdown
+
+# Collections for different writing types
+collections:
+  creative-writing:
+    output: true
+    permalink: /creative-writing/:path/
+  essays:
+    output: true
+    permalink: /essays/:path/
+
+# Build settings
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - .git/
+  - .gitignore
+  - _docs/
+  - README.md
+
+# Default settings for all pages
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "default"
+  -
+    scope:
+      path: ""
+      type: "creative-writing"
+    values:
+      layout: "writing"
+  -
+    scope:
+      path: ""
+      type: "essays"
+    values:
+      layout: "writing" 
