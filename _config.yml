@@ -1,9 +1,8 @@
 # Site Settings
 # These settings affect how your site appears and functions
-title: "My Writing Space"
+title: "and now, we drift"
 description: >-
-  A personal collection of essays and creative writing.
-  Simple, clean, and focused on the words.
+  on the winds, the time, the faith, and the stars.
 
 # CRITICAL: URL Configuration for GitHub Pages
 # Since this is a project site (not username.github.io), we need baseurl
@@ -12,12 +11,7 @@ baseurl: "/ChainOfNoThought"  # MUST match your repository name exactly
 
 # Language and timezone settings
 lang: "en"
-timezone: "America/New_York"  # Change to your timezone
-
-# Author information (optional but recommended)
-author:
-  name: "Your Name"
-  email: "your-email@example.com"  # Optional
+timezone: "Etc/GMT-4"  # Timezone (Note: Etc/GMT zones use inverted signs)
 
 # Build settings
 markdown: kramdown  # Only markdown processor supported by GitHub Pages
@@ -73,7 +67,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "Your Name"  # Change this to your name
+      author: "ChainOfNoThought"  # Change this to your name
   
   # Defaults for creative writing pieces
   - scope:
