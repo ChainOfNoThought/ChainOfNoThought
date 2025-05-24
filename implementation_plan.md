@@ -1094,4 +1094,171 @@ jobs:
    - Use Cloudflare Pages or Netlify as a CDN layer
    - Keep GitHub Pages as origin
 
+## SEARCH FUNCTIONALITY IMPLEMENTATION
+
+### Overview
+Search functionality is not natively supported by Jekyll/GitHub Pages but can be added through several approaches:
+
+### Option 1: Client-Side Search with Lunr.js
+
+**Implementation Steps**:
+
+1. Create `assets/js/search.js`:
+```javascript
+// Initialize lunr
+var idx = lunr(function () {
+  this.ref('id')
+  this.field('title', {boost: 10})
+  this.field('content')
+  this.field('tags', {boost: 5})
+  this.field('date')
+  
+  // Add documents to index
+  searchData.forEach(function (doc) {
+    this.add(doc)
+  }, this)
+})
+
+// Handle search
+function performSearch(query) {
+  var results = idx.search(query)
+  displayResults(results)
+}
+```
+
+2. Generate search data in `search-data.json`:
+```liquid
+---
+layout: null
+---
+[
+  {% for post in site.thoughts %}
+    {
+      "id": "{{ post.url | relative_url }}",
+      "title": "{{ post.title | escape }}",
+      "content": "{{ post.content | strip_html | strip_newlines | escape | truncate: 500 }}",
+      "tags": "{{ post.tags | join: ' ' }}",
+      "date": "{{ post.date | date: '%Y-%m-%d' }}",
+      "type": "thought"
+    }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+  {% if site.thoughts.size > 0 and site.stories.size > 0 %},{% endif %}
+  {% for story in site.stories %}
+    {% unless story.chapter == "info" %}
+    {
+      "id": "{{ story.url | relative_url }}",
+      "title": "{{ story.title | escape }}",
+      "content": "{{ story.content | strip_html | strip_newlines | escape | truncate: 500 }}",
+      "tags": "{{ story.tags | join: ' ' }}",
+      "date": "{{ story.date | date: '%Y-%m-%d' }}",
+      "type": "story"
+    }{% unless forloop.last %},{% endunless %}
+    {% endunless %}
+  {% endfor %}
+]
+```
+
+3. Update `prosterity.md`:
+```html
+<!-- Search UI -->
+<div class="search-container">
+  <input type="text" id="search-input" placeholder="Search all writings..." />
+  <div id="search-results"></div>
+</div>
+
+<script src="https://unpkg.com/lunr/lunr.js"></script>
+<script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+```
+
+### Option 2: Tag-Based Filtering (No JS)
+
+**Implementation**:
+
+1. Create `_includes/tag-cloud.html`:
+```liquid
+{% assign all_tags = "" | split: "" %}
+{% for post in site.thoughts %}
+  {% assign all_tags = all_tags | concat: post.tags %}
+{% endfor %}
+{% for story in site.stories %}
+  {% assign all_tags = all_tags | concat: story.tags %}
+{% endfor %}
+{% assign all_tags = all_tags | uniq | sort %}
+
+<div class="tag-cloud">
+  <h3>Filter by Tag:</h3>
+  {% for tag in all_tags %}
+    {% assign tag_count = 0 %}
+    {% for post in site.thoughts %}
+      {% if post.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    {% for story in site.stories %}
+      {% if story.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    
+    <a href="{{ '/tags/' | append: tag | relative_url }}" class="tag-link">
+      {{ tag }} ({{ tag_count }})
+    </a>
+  {% endfor %}
+</div>
+```
+
+2. Create tag pages dynamically with a plugin (requires custom workflow) or manually create pages for each tag.
+
+### Option 3: Simple Title/Excerpt Search
+
+**Implementation using JavaScript**:
+
+```javascript
+// Simpler search without external dependencies
+function simpleSearch(query) {
+  const searchData = {{ site.thoughts | concat: site.stories | jsonify }};
+  const results = searchData.filter(item => {
+    const searchString = `${item.title} ${item.excerpt} ${item.tags}`.toLowerCase();
+    return searchString.includes(query.toLowerCase());
+  });
+  return results;
+}
+```
+
+### Option 4: Algolia Integration (Advanced)
+
+**Requires**:
+- Algolia account
+- Custom GitHub Action
+- API keys in repository secrets
+
+**Benefits**:
+- Instant search
+- Typo tolerance
+- Faceted search
+- Analytics
+
+**Implementation**:
+1. Add `jekyll-algolia` plugin
+2. Configure credentials
+3. Index on build
+4. Add search UI
+
+### Recommendation
+
+For a simple writing site, **Option 1 (Lunr.js)** provides the best balance of features and simplicity. It:
+- Works entirely client-side
+- No external dependencies beyond the library
+- Good performance for < 1000 posts
+- Supports fuzzy matching
+
+For even simpler needs, **Option 2 (Tag filtering)** requires no JavaScript and provides basic organization.
+
+## IMPLEMENTATION NOTES
+
+1. **Progressive Enhancement**: Search should enhance, not replace, basic navigation
+2. **Accessibility**: Ensure search is keyboard navigable and screen reader friendly
+3. **Performance**: Lazy load search functionality to not impact initial page load
+4. **Fallback**: Provide non-JS alternatives where possible
+
 This implementation plan addresses all critical constraints, edge cases, and automation needs for building a robust GitHub Pages site that won't fail during autonomous implementation. 

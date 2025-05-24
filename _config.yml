@@ -39,8 +39,8 @@ exclude:
   - sofar.md
   - "*.sh"  # Exclude any shell scripts
 
-# Permalink structure for blog posts
-# This creates clean URLs like /2024/01/15/my-post/
+# Permalink structure for thoughts (essays)
+# This creates clean URLs like /2024/01/15/my-thought/
 permalink: /:year/:month/:day/:title/
 
 # Enable strict front matter validation
@@ -49,9 +49,15 @@ strict_front_matter: true
 
 # Collections for organizing different types of writing
 collections:
-  creative_writing:
-    output: true  # This creates a page for each piece
-    permalink: /creative/:title/
+  # Essays/thoughts collection
+  thoughts:
+    output: true
+    permalink: /thoughts/:title/
+  
+  # Stories collection with support for chapters
+  stories:
+    output: true
+    permalink: /stories/:path/
 
 # Default values to avoid repetition
 defaults:
@@ -61,21 +67,22 @@ defaults:
     values:
       layout: "default"
   
-  # Specific defaults for blog posts
+  # Specific defaults for thoughts/essays
   - scope:
       path: ""
-      type: "posts"
+      type: "thoughts"
     values:
       layout: "post"
       author: "ChainOfNoThought"  # Change this to your name
+      category: "thoughts"
   
-  # Defaults for creative writing pieces
+  # Defaults for stories
   - scope:
       path: ""
-      type: "creative_writing"
+      type: "stories"
     values:
       layout: "post"
-      category: "creative"
+      category: "stories"
 
 # Minima theme configuration
 # Keep it simple and readable
@@ -91,12 +98,17 @@ minima:
 # Navigation menu
 # List the pages you want in your site navigation
 header_pages:
+  - thoughts.md
+  - stories.md
+  - prosterity.md
   - about.md
-  - writing.md
 
 # Feed plugin settings
 feed:
   posts_limit: 20  # Number of posts in RSS feed
 
 # Future-proofing
-future: true  # Publish posts with future dates 
+future: true  # Publish posts with future dates
+
+# Footer text
+footer_text: "and now, we drift" 
