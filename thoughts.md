@@ -4,8 +4,6 @@ title: Thoughts
 permalink: /thoughts/
 ---
 
-A collection of essays and reflections on various topics.
-
 <div class="thoughts-list">
 {% assign sorted_thoughts = site.thoughts | sort: 'date' | reverse %}
 {% for thought in sorted_thoughts %}

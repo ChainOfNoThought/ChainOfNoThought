@@ -1,0 +1,110 @@
+{% comment %}
+  Story Navigation Include
+  
+  This include provides navigation between chapters within the same story.
+  It finds the previous and next chapters based on chapter_number within the same story_id.
+  
+  Usage: {% include story-navigation.html %}
+  
+  Requirements:
+  - Page must have story_id and chapter_number in front matter
+  - Other chapters in the same story must have matching story_id and sequential chapter_number
+{% endcomment %}
+
+{% comment %} Only show navigation for pages that are part of a story {% endcomment %}
+{% if page.story_id and page.chapter_number %}
+  
+  {% comment %} Get all chapters from the same story, excluding info pages {% endcomment %}
+  {% assign story_chapters = site.stories | where: 'story_id', page.story_id | where_exp: 'item', 'item.chapter != "info"' | sort: 'chapter_number' %}
+  
+  {% comment %} Find current chapter index and calculate previous/next {% endcomment %}
+  {% assign current_chapter_index = nil %}
+  {% assign previous_chapter = nil %}
+  {% assign next_chapter = nil %}
+  
+  {% comment %} Find the current chapter's position in the sorted array {% endcomment %}
+  {% for chapter in story_chapters %}
+    {% if chapter.url == page.url %}
+      {% assign current_chapter_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  {% comment %} Calculate previous and next chapters if current chapter was found {% endcomment %}
+  {% if current_chapter_index != nil %}
+    {% assign previous_index = current_chapter_index | minus: 1 %}
+    {% assign next_index = current_chapter_index | plus: 1 %}
+    
+    {% comment %} Get previous chapter if it exists {% endcomment %}
+    {% if previous_index >= 0 %}
+      {% assign previous_chapter = story_chapters[previous_index] %}
+    {% endif %}
+    
+    {% comment %} Get next chapter if it exists {% endcomment %}
+    {% if next_index < story_chapters.size %}
+      {% assign next_chapter = story_chapters[next_index] %}
+    {% endif %}
+  {% endif %}
+  
+  {% comment %} Render navigation if we have previous or next chapters {% endcomment %}
+  {% if previous_chapter or next_chapter %}
+    <nav class="story-navigation">
+      <div class="story-nav-container">
+        
+        {% comment %} Story info section {% endcomment %}
+        {% assign story_info = site.stories | where: 'story_id', page.story_id | where: 'chapter', 'info' | first %}
+        {% if story_info %}
+          <div class="story-nav-info">
+            <span class="story-nav-title">{{ story_info.story_title | default: page.story_id }}</span>
+            <span class="story-nav-chapter">Chapter {{ page.chapter_number }}</span>
+          </div>
+        {% endif %}
+        
+        {% comment %} Navigation links {% endcomment %}
+        <div class="story-nav-links">
+          {% if previous_chapter %}
+            <div class="nav-previous">
+              <span class="nav-label">← Previous</span>
+              <a href="{{ previous_chapter.url | relative_url }}" rel="prev" class="nav-link">
+                <span class="nav-chapter">Chapter {{ previous_chapter.chapter_number }}</span>
+                <span class="nav-title">{{ previous_chapter.title | escape }}</span>
+              </a>
+            </div>
+          {% else %}
+            <div class="nav-previous nav-disabled">
+              <span class="nav-label">← Previous</span>
+              <span class="nav-placeholder">First Chapter</span>
+            </div>
+          {% endif %}
+          
+          {% if next_chapter %}
+            <div class="nav-next">
+              <span class="nav-label">Next →</span>
+              <a href="{{ next_chapter.url | relative_url }}" rel="next" class="nav-link">
+                <span class="nav-chapter">Chapter {{ next_chapter.chapter_number }}</span>
+                <span class="nav-title">{{ next_chapter.title | escape }}</span>
+              </a>
+            </div>
+          {% else %}
+            <div class="nav-next nav-disabled">
+              <span class="nav-label">Next →</span>
+              <span class="nav-placeholder">Latest Chapter</span>
+            </div>
+          {% endif %}
+        </div>
+        
+        {% comment %} Story index and utility links {% endcomment %}
+        <div class="story-nav-index">
+          <a href="{{ '/stories/' | relative_url }}#{{ page.story_id | slugify }}" class="story-index-link">
+            View All Chapters
+          </a>
+          <a href="#top" class="back-to-top-link">
+            Back to Top ↑
+          </a>
+        </div>
+        
+      </div>
+    </nav>
+  {% endif %}
+  
+{% endif %} 

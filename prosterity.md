@@ -4,7 +4,7 @@ title: Prosterity
 permalink: /prosterity/
 ---
 
-A complete archive of all writings, sorted by date.
+An archive of writings, sorted by date.
 
 <!-- Search functionality - simple JavaScript filter -->
 <div class="search-container">
@@ -13,7 +13,6 @@ A complete archive of all writings, sorted by date.
          class="search-input" 
          placeholder="Search writings by title, tags, or type..."
          aria-label="Search archive">
-  <p class="search-hint">Start typing to filter the archive</p>
 </div>
 
 <div class="archive-list">

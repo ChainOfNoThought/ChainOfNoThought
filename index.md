@@ -1,14 +1,10 @@
 ---
 # This is the front matter - Jekyll uses this to process the page
 layout: home
-title: Home
+title: on the winds, time, faith, and stars
 ---
 
-# and now, we drift
-
-on the winds, the time, the faith, and the stars.
-
-## Recent Thoughts
+## Recent Essays
 
 {% assign recent_thoughts = site.thoughts | sort: 'date' | reverse | limit: 3 %}
 {% for thought in recent_thoughts %}
@@ -58,5 +54,5 @@ on the winds, the time, the faith, and the stars.
 ---
 
 <p class="site-description">
-A collection of thoughts, stories, and wanderings. Where essays drift into fiction, and memories become myths.
+A place for a singular soul to yell into the void
 </p>

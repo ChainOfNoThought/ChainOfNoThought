@@ -3,6 +3,7 @@ layout: default
 ---
 <!-- Post Layout - Simple and clean design for writing -->
 
+<a id="top" class="page-anchor"></a>
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <!-- Post Header -->
@@ -57,7 +58,11 @@ layout: default
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
 
-<!-- Navigation between posts -->
+<!-- Story-aware navigation -->
+{% include story-navigation.html %}
+
+<!-- Fallback to default navigation for non-story posts -->
+{% unless page.story_id and page.chapter_number %}
 <nav class="post-navigation">
   {%- if page.next or page.previous -%}
     <div class="post-nav-links">
@@ -76,4 +81,5 @@ layout: default
       {%- endif -%}
     </div>
   {%- endif -%}
-</nav> 
+</nav>
+{% endunless %} 

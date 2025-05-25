@@ -475,6 +475,16 @@ h3 { font-size: 1.2rem; }
   .story-title {
     margin-top: 0;
     color: #24292e;
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+      
+      &:hover {
+        color: #0366d6;
+        text-decoration: underline;
+      }
+    }
   }
   
   .story-description {
@@ -775,5 +785,279 @@ h3 { font-size: 1.2rem; }
   
   .no-results {
     padding: 2rem 1rem;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Story Navigation - Chapter-based navigation within stories
+// --------------------------------------------------------------------------
+
+.story-navigation {
+  margin-top: 4rem;
+  padding: 2rem;
+  background-color: #f6f8fa;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+}
+
+.story-nav-container {
+  max-width: 100%;
+}
+
+.story-nav-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e1e4e8;
+  
+  .story-nav-title {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #24292e;
+    margin-bottom: 0.5rem;
+  }
+  
+  .story-nav-chapter {
+    font-size: 0.875rem;
+    color: #6a737d;
+    font-style: italic;
+  }
+}
+
+.story-nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  
+  .nav-previous, .nav-next {
+    flex: 1;
+    min-width: 0; // Allow flex items to shrink
+  }
+  
+  .nav-next {
+    text-align: right;
+  }
+  
+  .nav-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #6a737d;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .nav-link {
+    display: block;
+    text-decoration: none;
+    color: #0366d6;
+    transition: color 0.15s ease-in-out;
+    
+    &:hover {
+      color: #0256cc;
+      text-decoration: none;
+      
+      .nav-title {
+        text-decoration: underline;
+      }
+    }
+    
+    .nav-chapter {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .nav-title {
+      display: block;
+      font-size: 1rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+  }
+  
+  .nav-disabled {
+    opacity: 0.5;
+    
+    .nav-placeholder {
+      display: block;
+      font-size: 0.875rem;
+      color: #6a737d;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.story-nav-index {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e1e4e8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  .story-index-link, .back-to-top-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #d1d5da;
+    border-radius: 6px;
+    color: #586069;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+    
+    &:hover {
+      background-color: #f6f8fa;
+      border-color: #c6cbd1;
+      color: #24292e;
+      text-decoration: none;
+    }
+  }
+  
+  .back-to-top-link {
+    background-color: #f6f8fa;
+    border-color: #c6cbd1;
+    
+    &:hover {
+      background-color: #e1e4e8;
+      border-color: #b1b7c1;
+    }
+  }
+}
+
+// Page anchor for back-to-top functionality
+.page-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+// Mobile adjustments for story navigation
+@media screen and (max-width: 600px) {
+  .story-navigation {
+    margin-top: 3rem;
+    padding: 1.5rem;
+  }
+  
+  .story-nav-links {
+    flex-direction: column;
+    gap: 1.5rem;
+    
+    .nav-next {
+      text-align: left;
+    }
+  }
+  
+  .story-nav-info {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    
+    .story-nav-title {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .story-nav-index {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Story Info Pages - Dedicated pages for story information and chapter lists
+// --------------------------------------------------------------------------
+
+.story-chapters-list {
+  margin-top: 2rem;
+  
+  .chapter-entry {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f6f8fa;
+    border-radius: 8px;
+    border: 1px solid #e1e4e8;
+    transition: all 0.15s ease-in-out;
+    
+    &:hover {
+      background-color: #f1f3f4;
+      border-color: #d1d5da;
+    }
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      
+      a {
+        color: #0366d6;
+        text-decoration: none;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    
+    .chapter-meta {
+      margin: 0.5rem 0;
+      font-size: 0.875rem;
+      color: #6a737d;
+      
+      time {
+        font-weight: 500;
+      }
+      
+      .tag {
+        background-color: #f1f8ff;
+        color: #0366d6;
+        padding: 0.2em 0.5em;
+        border-radius: 3px;
+        font-size: 0.8rem;
+      }
+    }
+    
+    .chapter-excerpt {
+      margin: 1rem 0 0 0;
+      color: #586069;
+      font-style: italic;
+      line-height: 1.5;
+    }
+  }
+}
+
+.no-chapters {
+  text-align: center;
+  color: #6a737d;
+  font-style: italic;
+  padding: 2rem;
+  background-color: #f6f8fa;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+// Mobile adjustments for story info pages
+@media screen and (max-width: 600px) {
+  .story-chapters-list {
+    .chapter-entry {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      
+      h3 {
+        font-size: 1.1rem;
+      }
+      
+      .chapter-meta {
+        font-size: 0.8rem;
+      }
+    }
   }
 } 

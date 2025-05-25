@@ -82,22 +82,20 @@ def convert_paragraph_to_markdown(paragraph):
         return f"{text}\n"
 
 
-def generate_yaml_frontmatter(title="", date=None, tags=None, excerpt=""):
-    """Generate YAML front matter for the markdown file."""
+def generate_yaml_frontmatter(title="", date=None):
+    """Generate YAML front matter for the markdown file with all possible fields."""
     if date is None:
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S %z")
-    
-    if tags is None:
-        tags = "[]"
-    elif isinstance(tags, list):
-        tags = str(tags)
     
     frontmatter = f"""---
 layout: post
 title: "{title}"
+story_id: ""
+chapter_number: 
 date: {date}
-tags: {tags}
-excerpt: "{excerpt}"
+tags: []
+categories: []
+excerpt: ""
 ---
 
 """
@@ -110,25 +108,16 @@ def convert_docx_to_markdown(input_path, output_path=None):
         # Load the Word document
         doc = Document(input_path)
         
-        # Extract title from first paragraph or filename
-        title = ""
-        if doc.paragraphs and doc.paragraphs[0].text.strip():
-            title = doc.paragraphs[0].text.strip()
-        else:
-            title = Path(input_path).stem
+        # Use the Word document filename (without extension) as the title
+        title = Path(input_path).stem
         
         # Generate output filename if not provided
         if output_path is None:
-            # Create filename from title, replacing spaces with underscores
-            if title:
-                # Clean the title for use as filename
-                clean_filename = title.replace(' ', '_').replace('/', '_').replace('\\', '_')
-                # Remove other problematic characters for filenames
-                clean_filename = ''.join(c for c in clean_filename if c.isalnum() or c in ('_', '-', '.'))
-                output_path = f"{clean_filename}.md"
-            else:
-                # Fallback to input filename if no title found
-                output_path = Path(input_path).with_suffix('.md').name
+            # Create filename from Word doc name, replacing spaces with underscores
+            clean_filename = title.replace(' ', '_').replace('/', '_').replace('\\', '_')
+            # Remove other problematic characters for filenames
+            clean_filename = ''.join(c for c in clean_filename if c.isalnum() or c in ('_', '-', '.'))
+            output_path = f"{clean_filename}.md"
         
         # Convert paragraphs to markdown
         markdown_content = []
@@ -201,8 +190,7 @@ Examples:
     
     # Determine output path
     output_path = args.output
-    if output_path is None:
-        output_path = input_path.with_suffix('.md').name
+    # Don't set default output_path here - let convert_docx_to_markdown handle it
     
     # Convert the document
     success = convert_docx_to_markdown(str(input_path), output_path)

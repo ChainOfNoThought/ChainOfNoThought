@@ -1,0 +1,114 @@
+{% comment %}
+  Story Helper Functions
+  
+  This include provides utility functions for working with stories and chapters.
+  These functions help maintain consistency across the site and provide reusable logic.
+  
+  Available functions:
+  - get_story_chapters: Get all chapters for a story, sorted by chapter_number
+  - get_story_info: Get the info page for a story
+  - get_chapter_navigation: Get previous/next chapters for navigation
+{% endcomment %}
+
+{% comment %}
+  Function: get_story_chapters
+  
+  Gets all chapters for a given story_id, excluding info pages, sorted by chapter_number
+  
+  Usage:
+  {% assign chapters = site.stories | include: 'story-helpers.html', function: 'get_story_chapters', story_id: 'my-story' %}
+  
+  Parameters:
+  - story_id: The story_id to filter by
+  
+  Returns: Array of chapter pages sorted by chapter_number
+{% endcomment %}
+{% if include.function == 'get_story_chapters' %}
+  {% assign story_chapters = site.stories | where: 'story_id', include.story_id | where_exp: 'item', 'item.chapter != "info"' | sort: 'chapter_number' %}
+  {{ story_chapters }}
+{% endif %}
+
+{% comment %}
+  Function: get_story_info
+  
+  Gets the info page for a given story_id
+  
+  Usage:
+  {% assign story_info = site.stories | include: 'story-helpers.html', function: 'get_story_info', story_id: 'my-story' %}
+  
+  Parameters:
+  - story_id: The story_id to get info for
+  
+  Returns: The story info page or nil if not found
+{% endcomment %}
+{% if include.function == 'get_story_info' %}
+  {% assign story_info = site.stories | where: 'story_id', include.story_id | where: 'chapter', 'info' | first %}
+  {{ story_info }}
+{% endif %}
+
+{% comment %}
+  Function: validate_story_structure
+  
+  Validates that a story has proper chapter numbering and structure
+  
+  Usage:
+  {% include story-helpers.html function='validate_story_structure' story_id='my-story' %}
+  
+  Parameters:
+  - story_id: The story_id to validate
+  
+  Returns: Validation warnings or errors (for development)
+{% endcomment %}
+{% if include.function == 'validate_story_structure' %}
+  {% assign chapters = site.stories | where: 'story_id', include.story_id | where_exp: 'item', 'item.chapter != "info"' | sort: 'chapter_number' %}
+  {% assign story_info = site.stories | where: 'story_id', include.story_id | where: 'chapter', 'info' | first %}
+  
+  {% comment %} Check for missing story info {% endcomment %}
+  {% unless story_info %}
+    <!-- Warning: Story '{{ include.story_id }}' is missing story info page -->
+  {% endunless %}
+  
+  {% comment %} Check for chapter numbering gaps {% endcomment %}
+  {% assign expected_chapter = 1 %}
+  {% for chapter in chapters %}
+    {% if chapter.chapter_number != expected_chapter %}
+      <!-- Warning: Story '{{ include.story_id }}' has chapter numbering gap. Expected {{ expected_chapter }}, found {{ chapter.chapter_number }} -->
+    {% endif %}
+    {% assign expected_chapter = expected_chapter | plus: 1 %}
+  {% endfor %}
+  
+  {% comment %} Check for duplicate chapter numbers {% endcomment %}
+  {% assign chapter_numbers = chapters | map: 'chapter_number' | sort %}
+  {% assign previous_number = nil %}
+  {% for number in chapter_numbers %}
+    {% if number == previous_number %}
+      <!-- Warning: Story '{{ include.story_id }}' has duplicate chapter number {{ number }} -->
+    {% endif %}
+    {% assign previous_number = number %}
+  {% endfor %}
+{% endif %}
+
+{% comment %}
+  Function: get_story_stats
+  
+  Gets statistics about a story (chapter count, word count estimate, etc.)
+  
+  Usage:
+  {% include story-helpers.html function='get_story_stats' story_id='my-story' %}
+  
+  Parameters:
+  - story_id: The story_id to get stats for
+  
+  Returns: Statistics object with chapter_count, latest_date, etc.
+{% endcomment %}
+{% if include.function == 'get_story_stats' %}
+  {% assign chapters = site.stories | where: 'story_id', include.story_id | where_exp: 'item', 'item.chapter != "info"' | sort: 'chapter_number' %}
+  {% assign latest_chapter = chapters | sort: 'date' | reverse | first %}
+  
+  {% comment %} Output stats as HTML comments for debugging {% endcomment %}
+  <!-- Story Stats for '{{ include.story_id }}':
+       Chapter Count: {{ chapters.size }}
+       Latest Chapter: {{ latest_chapter.chapter_number | default: 'None' }}
+       Latest Date: {{ latest_chapter.date | default: 'None' }}
+  -->
+{% endif %} 

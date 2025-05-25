@@ -4,8 +4,6 @@ title: Stories
 permalink: /stories/
 ---
 
-A collection of creative writing, stories, and fictional works.
-
 <div class="stories-list">
 {% comment %}
   Group stories by story_id to create story collections
@@ -17,14 +15,14 @@ A collection of creative writing, stories, and fictional works.
 
 {% for story_group in story_groups %}
   {% if story_group.name and story_group.name != "" %}
-    <div class="story-collection">
+    <div class="story-collection" id="{{ story_group.name | slugify }}">
       {% comment %} Find the story info file for this story_id {% endcomment %}
       {% assign story_info = story_group.items | where: 'chapter', 'info' | first %}
       {% assign chapters = story_group.items | where_exp: 'item', 'item.chapter != "info"' | sort: 'chapter_number' %}
       
       <h2 class="story-title">
         {% if story_info %}
-          {{ story_info.story_title | default: story_group.name }}
+          <a href="{{ story_info.url | relative_url }}">{{ story_info.story_title | default: story_group.name }}</a>
         {% else %}
           {{ story_group.name }}
         {% endif %}
