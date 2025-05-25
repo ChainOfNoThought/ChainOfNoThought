@@ -4,8 +4,6 @@
 
 A sophisticated, accessible writing website built with Jekyll and hosted on GitHub Pages. Features dark mode, customizable font sizing, and a clean, distraction-free reading experience.
 
-> **✨ Recently Reorganized**: The repository has been restructured for better organization, maintainability, and developer experience. All functionality is preserved while improving the codebase structure.
-
 ## Overview
 
 This is a feature-rich writing website designed to showcase:
@@ -16,34 +14,6 @@ This is a feature-rich writing website designed to showcase:
 - **Granular font size controls for accessibility**
 - Simple, distraction-free reading experience
 - Mobile-responsive design
-
-## Key Features
-
-### 🎨 Theme System
-- **Dark mode by default** with light mode option
-- Seamless theme switching via the About page
-- Theme preferences persist across page navigation
-- Print-friendly automatic light theme override
-
-### 📝 Font Size Controls
-- **Base font size control** (12px - 32px)
-- **Heading scale adjustment** (50% - 200%)
-- **Content scale adjustment** (50% - 200%)
-- **Meta text scale adjustment** (50% - 200%)
-- One-click reset to defaults
-- All changes apply instantly and persist across pages
-
-### 🔗 Privacy-Friendly Persistence
-- No cookies or localStorage used
-- Settings maintained via URL parameters
-- Shareable links with preferred settings
-- Works across all devices and browsers
-
-### 📚 Content Organization
-- **Thoughts**: Essays and blog posts with date-based organization
-- **Stories**: Creative writing with support for multi-chapter works
-- **Prosterity**: Complete archive with search functionality
-- Automatic excerpt generation and reading time estimates
 
 ## Local Development
 
@@ -93,43 +63,6 @@ These will check:
 - No files exceed 25MB
 - All content has proper front matter
 - Basic HTML validation
-
-## Site Structure
-
-```
-ChainOfNoThought/
-├── docs/                     # 📚 Documentation
-│   ├── guides/              # 📖 User guides (maintenance, images)
-│   └── reference/           # 📋 Technical reference
-├── scripts/                 # 🔧 Automation scripts
-├── _layouts/                # 🎨 Jekyll layouts
-│   ├── default.html         # Main layout with theme/font controls
-│   └── post.html            # Post layout with metadata
-├── _includes/               # 🧩 Reusable components
-│   ├── head.html            # HTML head section
-│   ├── header.html          # Site navigation
-│   ├── footer.html          # Site footer
-│   ├── quote-styles.css     # Quote styling
-│   └── random-quote.js      # Random quote functionality
-├── _thoughts/               # ✍️ Essays and blog posts
-├── _stories/                # 📖 Creative writing and stories
-├── assets/                  # 🎯 Static assets
-│   ├── css/
-│   │   └── style.scss       # Main stylesheet with theme support
-│   ├── js/
-│   │   └── settings.js      # Theme and font size management
-│   └── images/              # Site images
-├── _data/                   # 📊 Data files (quotes, etc.)
-├── .github/                 # ⚙️ GitHub configuration
-│   └── workflows/           # GitHub Actions
-├── _config.yml              # Jekyll configuration
-├── index.md                 # Home page
-├── thoughts.md              # Thoughts archive page
-├── stories.md               # Stories archive page
-├── prosterity.md            # Complete archive with search
-├── about.md                 # About page with settings controls
-└── 404.html                 # Custom 404 page
-```
 
 ## Adding Content
 
@@ -251,23 +184,6 @@ Key files:
 - `assets/css/style.scss` - Comprehensive theming and responsive design
 - `assets/js/settings.js` - Settings management and persistence
 - `.github/workflows/pages.yml` - GitHub Actions deployment
-
-## Recent Improvements
-
-### 🗂️ Repository Reorganization
-The codebase has been restructured for better maintainability:
-
-- **📚 Organized Documentation**: All docs moved to `docs/` with clear categorization
-- **🔧 Centralized Scripts**: Build and validation scripts organized in `scripts/`
-- **🧩 Structured Includes**: Components and scripts properly organized in `_includes/`
-- **✅ Enhanced Validation**: New structure validation ensures everything stays wired correctly
-- **🚫 Eliminated Redundancy**: Removed duplicate files and consolidated functionality
-
-### 🔧 Missing Files Restored
-- **`_layouts/default.html`**: Created the missing main layout with theme system
-- **`_includes/head.html`**: Added proper HTML head section
-- **`_includes/header.html`**: Created navigation header
-- **`assets/js/settings.js`**: Implemented the referenced settings management system
 
 ## Documentation
 
