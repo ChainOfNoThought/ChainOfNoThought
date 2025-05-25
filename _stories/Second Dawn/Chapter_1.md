@@ -134,9 +134,9 @@ I have my hands on my chin, deep in thought. An old, *old* habit of mine. I had 
 
 I am trying my best to give them the clues, but it falls on deaf ears.
 
-*He is so **strong**;** he can already stand**!*
+*He is so strong; he can already stand!*
 
-*He **seems** to have affinity **with** mana!*
+*He seems to have affinity with mana!*
 
 *He already knows so many words!*
 
