@@ -1,0 +1,4 @@
+---
+# This file intentionally left empty to disable RSS feed functionality
+# The jekyll-feed plugin is included in github-pages but we don't want RSS
+--- 

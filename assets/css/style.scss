@@ -59,9 +59,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // Specific header sizes
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.4rem; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
 
 // --------------------------------------------------------------------------
 // Post Content - Main writing area
@@ -150,7 +150,7 @@ h3 { font-size: 1.4rem; }
 
 .site-title {
   // Make the site title more prominent
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: -0.5px;
 }
@@ -203,7 +203,7 @@ h3 { font-size: 1.4rem; }
 
 .post-link {
   // Larger post titles in lists
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-decoration: none;
   
   &:hover {
@@ -241,9 +241,9 @@ h3 { font-size: 1.4rem; }
     padding: 0 1rem;
   }
   
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.2rem; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.3rem; }
+  h3 { font-size: 1.1rem; }
   
   .post-list > li {
     margin-bottom: 2rem;
@@ -376,7 +376,7 @@ h3 { font-size: 1.4rem; }
 
 .home-heading {
   // Section headings
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 2rem;
   text-align: center;
   color: #2a2a2a;
@@ -451,7 +451,7 @@ h3 { font-size: 1.4rem; }
   }
   
   .thought-link, .story-link {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #0366d6;
     text-decoration: none;
     
@@ -537,7 +537,7 @@ h3 { font-size: 1.4rem; }
     margin-bottom: 1.5rem;
     
     h3 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #586069;
     }
   }
@@ -667,5 +667,113 @@ h3 { font-size: 1.4rem; }
   
   a[href]:after {
     content: " (" attr(href) ")";
+  }
+}
+
+// --------------------------------------------------------------------------
+// Search Functionality Styles
+// --------------------------------------------------------------------------
+
+.search-container {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f6f8fa;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 2px solid #e1e4e8;
+  border-radius: 6px;
+  background-color: white;
+  transition: border-color 0.15s ease-in-out;
+  box-sizing: border-box;
+  
+  &:focus {
+    outline: none;
+    border-color: #0366d6;
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+  }
+  
+  &::placeholder {
+    color: #6a737d;
+  }
+}
+
+.search-hint {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+  color: #6a737d;
+  font-style: italic;
+}
+
+// No results message
+.no-results {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #f6f8fa;
+  border-radius: 8px;
+  margin: 2rem 0;
+  
+  p {
+    margin: 0.5rem 0;
+  }
+  
+  .search-term {
+    font-weight: 600;
+    color: #24292e;
+  }
+  
+  .clear-search {
+    color: #0366d6;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Update archive stats to highlight the showing count
+.archive-stats {
+  .showing-count {
+    font-weight: 600;
+    color: #0366d6;
+  }
+}
+
+// Highlight matching items (optional enhancement)
+.archive-item {
+  transition: opacity 0.2s ease-in-out;
+}
+
+// When searching, fade out non-matching items instead of hiding
+@media (prefers-reduced-motion: no-preference) {
+  .archive-list:has(+ .search-container input:not(:placeholder-shown)) {
+    .archive-item[style*="none"] {
+      opacity: 0.3;
+      display: block !important;
+    }
+  }
+}
+
+// Mobile adjustments for search
+@media screen and (max-width: 600px) {
+  .search-container {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .search-input {
+    font-size: 16px; // Prevents zoom on iOS
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .no-results {
+    padding: 2rem 1rem;
   }
 } 

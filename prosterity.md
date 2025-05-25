@@ -6,10 +6,15 @@ permalink: /prosterity/
 
 A complete archive of all writings, sorted by date.
 
-{% comment %} 
-  Note: Search functionality requires JavaScript which is not included in the basic Jekyll setup.
-  This will be added in a future phase of implementation.
-{% endcomment %}
+<!-- Search functionality - simple JavaScript filter -->
+<div class="search-container">
+  <input type="text" 
+         id="archive-search" 
+         class="search-input" 
+         placeholder="Search writings by title, tags, or type..."
+         aria-label="Search archive">
+  <p class="search-hint">Start typing to filter the archive</p>
+</div>
 
 <div class="archive-list">
   {% comment %} Combine all collections into one array {% endcomment %}
@@ -32,7 +37,10 @@ A complete archive of all writings, sorted by date.
           
           <ul class="archive-posts">
             {% for post in month_group.items %}
-              <li>
+              <li class="archive-item" 
+                  data-title="{{ post.title | downcase | escape }}"
+                  data-tags="{% for tag in post.tags %}{{ tag | downcase }} {% endfor %}"
+                  data-type="{{ post.collection }}">
                 <span class="archive-date">
                   {{ post.date | date: "%d" }} -
                 </span>
@@ -61,14 +69,113 @@ A complete archive of all writings, sorted by date.
   {% endfor %}
 </div>
 
+<div class="no-results" style="display: none;">
+  <p>No writings found matching "<span class="search-term"></span>"</p>
+  <p><a href="#" class="clear-search">Clear search</a></p>
+</div>
+
 {% if all_posts.size == 0 %}
   <p class="no-content">No writings archived yet.</p>
 {% endif %}
 
 <div class="archive-stats">
   <p>
-    <strong>Total writings:</strong> {{ all_posts.size }}<br>
+    <strong>Total writings:</strong> <span class="total-count">{{ all_posts.size }}</span><br>
+    <strong>Showing:</strong> <span class="showing-count">{{ all_posts.size }}</span><br>
     <strong>Thoughts:</strong> {{ site.thoughts.size }}<br>
     <strong>Stories:</strong> {{ site.stories.size }}
   </p>
-</div> 
+</div>
+
+<!-- Simple search JavaScript -->
+<script>
+(function() {
+  // Get elements
+  var searchInput = document.getElementById('archive-search');
+  var archiveItems = document.querySelectorAll('.archive-item');
+  var archiveYears = document.querySelectorAll('.archive-year');
+  var archiveMonths = document.querySelectorAll('.archive-month');
+  var noResults = document.querySelector('.no-results');
+  var searchTerm = document.querySelector('.search-term');
+  var showingCount = document.querySelector('.showing-count');
+  var clearLink = document.querySelector('.clear-search');
+  
+  // Search function
+  function filterArchive() {
+    var query = searchInput.value.toLowerCase();
+    var visibleCount = 0;
+    
+    // If no search query, show everything
+    if (query === '') {
+      archiveItems.forEach(function(item) {
+        item.style.display = '';
+      });
+      archiveYears.forEach(function(year) {
+        year.style.display = '';
+      });
+      archiveMonths.forEach(function(month) {
+        month.style.display = '';
+      });
+      noResults.style.display = 'none';
+      showingCount.textContent = archiveItems.length;
+      return;
+    }
+    
+    // Filter items
+    archiveItems.forEach(function(item) {
+      var title = item.getAttribute('data-title') || '';
+      var tags = item.getAttribute('data-tags') || '';
+      var type = item.getAttribute('data-type') || '';
+      
+      // Check if query matches title, tags, or type
+      if (title.indexOf(query) > -1 || 
+          tags.indexOf(query) > -1 || 
+          type.indexOf(query) > -1) {
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Hide empty months and years
+    archiveMonths.forEach(function(month) {
+      var hasVisibleItems = month.querySelector('.archive-item[style=""]') !== null;
+      month.style.display = hasVisibleItems ? '' : 'none';
+    });
+    
+    archiveYears.forEach(function(year) {
+      var hasVisibleMonths = year.querySelector('.archive-month[style=""]') !== null;
+      year.style.display = hasVisibleMonths ? '' : 'none';
+    });
+    
+    // Show/hide no results message
+    if (visibleCount === 0) {
+      noResults.style.display = 'block';
+      searchTerm.textContent = query;
+    } else {
+      noResults.style.display = 'none';
+    }
+    
+    // Update count
+    showingCount.textContent = visibleCount;
+  }
+  
+  // Event listeners
+  searchInput.addEventListener('input', filterArchive);
+  searchInput.addEventListener('keyup', filterArchive);
+  
+  // Clear search
+  clearLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    searchInput.value = '';
+    filterArchive();
+    searchInput.focus();
+  });
+  
+  // Focus search input when page loads if there's a hash
+  if (window.location.hash === '#search') {
+    searchInput.focus();
+  }
+})();
+</script> 

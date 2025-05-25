@@ -3,7 +3,7 @@ source "https://rubygems.org"
 # GitHub Pages gem with exact version
 # Check https://pages.github.com/versions/ for the latest version
 # This ensures your local environment matches GitHub's production environment
-gem "github-pages", "= 232", group: :jekyll_plugins
+gem "github-pages", "~> 232", group: :jekyll_plugins
 
 # Required for Ruby 3.0+ compatibility
 gem "webrick", "~> 1.7"

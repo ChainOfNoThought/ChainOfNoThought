@@ -20,7 +20,6 @@ theme: minima       # Simple, clean theme perfect for writing
 # Only use GitHub Pages whitelisted plugins
 # See: https://pages.github.com/versions/
 plugins:
-  - jekyll-feed        # Creates RSS/Atom feeds for your posts
   - jekyll-seo-tag     # Adds meta tags for better SEO
   - jekyll-sitemap     # Generates sitemap.xml for search engines
 
@@ -32,12 +31,10 @@ exclude:
   - vendor/
   - .bundle/
   - node_modules/
-  - README.md
-  - phased_implementation.md
-  - implementation_plan.md
-  - maintenance_guide.md
-  - sofar.md
-  - "*.sh"  # Exclude any shell scripts
+  - docs/          # Documentation directory
+  - scripts/       # Build and maintenance scripts
+  - README.md      # Repository documentation
+  - "*.sh"         # Shell scripts
 
 # Permalink structure for thoughts (essays)
 # This creates clean URLs like /2024/01/15/my-thought/
@@ -102,10 +99,6 @@ header_pages:
   - stories.md
   - prosterity.md
   - about.md
-
-# Feed plugin settings
-feed:
-  posts_limit: 20  # Number of posts in RSS feed
 
 # Future-proofing
 future: true  # Publish posts with future dates

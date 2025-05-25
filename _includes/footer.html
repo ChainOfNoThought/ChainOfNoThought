@@ -1,20 +1,23 @@
+<!-- Site Footer - Clean and minimal with rotating quotes -->
 <footer class="site-footer h-card">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
   <div class="wrapper">
-    <div class="footer-col-wrapper">
-      <div class="footer-col">
-        <p class="feed-subscribe">
-          <a href="{{ 'feed.xml' | relative_url }}">
-            <svg class="svg-icon">
-              <use xlink:href="{{ 'assets/minima-social-icons.svg#rss' | relative_url }}"></use>
-            </svg><span>Subscribe</span>
-          </a>
-        </p>
-      </div>
-      <div class="footer-col">
-        <p>{{ site.footer_text | default: site.title | escape }}</p>
+    <!-- Quote display area -->
+    <div class="footer-content">
+      <div id="footer-quote" class="quote-container">
+        <!-- Quote will be populated by JavaScript -->
       </div>
     </div>
   </div>
+  
+  <!-- Include quote styles -->
+  <style>
+    {% include components/quote-styles.css %}
+  </style>
+  
+  <!-- Include random quote functionality -->
+  <script>
+    {% include scripts/random-quote.js %}
+  </script>
 </footer> 

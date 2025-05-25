@@ -59,19 +59,19 @@ layout: default
 
 <!-- Navigation between posts -->
 <nav class="post-navigation">
-  {%- if page.previous or page.next -%}
+  {%- if page.next or page.previous -%}
     <div class="post-nav-links">
-      {%- if page.previous -%}
+      {%- if page.next -%}
         <div class="nav-previous">
           <span class="text-muted text-small">← Previous</span><br>
-          <a href="{{ page.previous.url | relative_url }}" rel="prev">{{ page.previous.title | escape }}</a>
+          <a href="{{ page.next.url | relative_url }}" rel="prev">{{ page.next.title | escape }}</a>
         </div>
       {%- endif -%}
       
-      {%- if page.next -%}
+      {%- if page.previous -%}
         <div class="nav-next">
           <span class="text-muted text-small">Next →</span><br>
-          <a href="{{ page.next.url | relative_url }}" rel="next">{{ page.next.title | escape }}</a>
+          <a href="{{ page.previous.url | relative_url }}" rel="next">{{ page.previous.title | escape }}</a>
         </div>
       {%- endif -%}
     </div>

@@ -27,46 +27,69 @@
 ## REPOSITORY STRUCTURE WITH CONSTRAINTS
 
 ```
-username.github.io/                # For user site OR
-repository-name/                   # For project site (requires baseurl config)
-├── _config.yml                    # CRITICAL: Must handle baseurl correctly
-├── .gitignore                     # MUST exclude _site/, Gemfile.lock for Actions
-├── .nojekyll                      # ONLY if disabling Jekyll processing
-├── CNAME                          # ONLY for custom domains
+ChainOfNoThought/                  # Project repository
+├── docs/                          # 📚 Documentation (excluded from build)
+│   ├── guides/                   # 📖 User guides
+│   │   ├── maintenance_guide.md  # Complete maintenance guide
+│   │   └── IMAGE_GUIDE.md        # Image optimization guide
+│   ├── reference/                # 📋 Technical reference
+│   │   └── implementation_plan.md # This file
+│   └── README.md                 # Documentation index
+│
+├── scripts/                       # 🔧 Automation scripts (excluded from build)
+│   ├── validate-build.sh         # Build validation
+│   ├── validate-structure.sh     # Structure validation
+│   └── quick-setup.sh            # Setup automation
+│
+├── _config.yml                    # CRITICAL: Jekyll configuration
+├── .gitignore                     # MUST exclude _site/, vendor/, etc.
 ├── Gemfile                        # MUST pin exact github-pages version
 ├── Gemfile.lock                   # Git-ignored but used locally
-├── README.md                      # Developer documentation
-├── 404.html                       # Custom 404 page (optional but recommended)
+├── README.md                      # Repository documentation
+├── 404.html                       # Custom 404 page
 ├── index.md                       # Home page with proper front matter
 │
-├── _layouts/                      # Custom layouts (override theme carefully)
-│   ├── default.html               # Base template
-│   ├── home.html                  # Homepage layout
-│   ├── page.html                  # Static page layout
+├── _layouts/                      # 🎨 Custom layouts
+│   ├── default.html               # Base template with theme system
 │   └── post.html                  # Blog post layout
 │
-├── _includes/                     # Reusable components
+├── _includes/                     # 🧩 Reusable components
+│   ├── head.html                  # HTML head section
 │   ├── header.html                # Navigation with relative_url filter
-│   └── footer.html                # Site footer
+│   ├── footer.html                # Site footer with quotes
+│   ├── components/                # UI components
+│   │   └── quote-styles.css       # Quote styling
+│   └── scripts/                   # JavaScript includes
+│       └── random-quote.js        # Random quote functionality
 │
-├── assets/                        # Static assets
+├── assets/                        # 🎯 Static assets
 │   ├── css/
-│   │   └── style.scss             # MUST import theme first
+│   │   └── style.scss             # Main stylesheet with theme system
+│   ├── js/
+│   │   └── settings.js            # Theme and font size management
 │   └── images/                    # Compressed images only (no Git LFS)
 │
-├── _posts/                        # Blog posts (Jekyll convention)
+├── _thoughts/                     # ✍️ Essays and blog posts collection
 │   └── YYYY-MM-DD-title.md        # Date format REQUIRED
 │
-├── _creative_writing/             # Custom collection
-│   ├── story1.md                  # MUST have front matter
-│   └── story2.md                  # output: true required in config
+├── _stories/                      # 📖 Creative writing collection
+│   ├── standalone-story.md        # Individual stories
+│   └── story-series/              # Multi-chapter stories
+│       ├── story-info.md          # Story metadata
+│       └── chapter-N.md           # Individual chapters
 │
-├── .github/                       # GitHub-specific files
-│   └── workflows/                 # Custom Actions (advanced)
-│       └── jekyll.yml             # Custom build workflow (optional)
+├── _data/                         # 📊 Data files (YAML/JSON/CSV)
+│   └── quotes.yml                 # Random quotes for footer
 │
-├── _data/                         # Data files (YAML/JSON/CSV)
-├── _drafts/                       # Unpublished posts (local only)
+├── .github/                       # ⚙️ GitHub-specific files
+│   └── workflows/                 # GitHub Actions
+│       └── pages.yml              # Deployment workflow
+│
+├── thoughts.md                    # Thoughts archive page
+├── stories.md                     # Stories archive page
+├── prosterity.md                  # Complete archive with search
+├── about.md                       # About page with settings controls
+├── feed.xml                       # RSS feed
 └── _site/                         # Generated site (git-ignored)
 ```
 
@@ -1099,7 +1122,7 @@ jobs:
 ### Overview
 Search functionality is not natively supported by Jekyll/GitHub Pages but can be added through several approaches:
 
-### Option 1: Client-Side Search with Lunr.js
+### Client-Side Search with Lunr.js
 
 **Implementation Steps**:
 
@@ -1169,90 +1192,6 @@ layout: null
 <script src="https://unpkg.com/lunr/lunr.js"></script>
 <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
 ```
-
-### Option 2: Tag-Based Filtering (No JS)
-
-**Implementation**:
-
-1. Create `_includes/tag-cloud.html`:
-```liquid
-{% assign all_tags = "" | split: "" %}
-{% for post in site.thoughts %}
-  {% assign all_tags = all_tags | concat: post.tags %}
-{% endfor %}
-{% for story in site.stories %}
-  {% assign all_tags = all_tags | concat: story.tags %}
-{% endfor %}
-{% assign all_tags = all_tags | uniq | sort %}
-
-<div class="tag-cloud">
-  <h3>Filter by Tag:</h3>
-  {% for tag in all_tags %}
-    {% assign tag_count = 0 %}
-    {% for post in site.thoughts %}
-      {% if post.tags contains tag %}
-        {% assign tag_count = tag_count | plus: 1 %}
-      {% endif %}
-    {% endfor %}
-    {% for story in site.stories %}
-      {% if story.tags contains tag %}
-        {% assign tag_count = tag_count | plus: 1 %}
-      {% endif %}
-    {% endfor %}
-    
-    <a href="{{ '/tags/' | append: tag | relative_url }}" class="tag-link">
-      {{ tag }} ({{ tag_count }})
-    </a>
-  {% endfor %}
-</div>
-```
-
-2. Create tag pages dynamically with a plugin (requires custom workflow) or manually create pages for each tag.
-
-### Option 3: Simple Title/Excerpt Search
-
-**Implementation using JavaScript**:
-
-```javascript
-// Simpler search without external dependencies
-function simpleSearch(query) {
-  const searchData = {{ site.thoughts | concat: site.stories | jsonify }};
-  const results = searchData.filter(item => {
-    const searchString = `${item.title} ${item.excerpt} ${item.tags}`.toLowerCase();
-    return searchString.includes(query.toLowerCase());
-  });
-  return results;
-}
-```
-
-### Option 4: Algolia Integration (Advanced)
-
-**Requires**:
-- Algolia account
-- Custom GitHub Action
-- API keys in repository secrets
-
-**Benefits**:
-- Instant search
-- Typo tolerance
-- Faceted search
-- Analytics
-
-**Implementation**:
-1. Add `jekyll-algolia` plugin
-2. Configure credentials
-3. Index on build
-4. Add search UI
-
-### Recommendation
-
-For a simple writing site, **Option 1 (Lunr.js)** provides the best balance of features and simplicity. It:
-- Works entirely client-side
-- No external dependencies beyond the library
-- Good performance for < 1000 posts
-- Supports fuzzy matching
-
-For even simpler needs, **Option 2 (Tag filtering)** requires no JavaScript and provides basic organization.
 
 ## IMPLEMENTATION NOTES
 
