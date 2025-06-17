@@ -133,7 +133,7 @@ Ah. I need to practice sitting up.
 I have my hands on my chin, deep in thought. An old, *old* habit of mine. I had thought that it would be strange to see a child taking on this pose, but it seemed that my parents found it endearing, so I did not refrain from doing so.
 
 I am trying my best to give them the clues, but it falls on deaf ears.
-
+g
 *He is so strong; he can already stand!*
 
 *He seems to have affinity with mana!*

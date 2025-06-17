@@ -1,6 +1,6 @@
 # ChainOfNoThought
 
-[![Deploy Jekyll site to Pages](https://github.com/ChainOfNoThought/ChainOfNoThought/actions/workflows/pages.yml/badge.svg)](https://github.com/ChainOfNoThought/ChainOfNoThought/actions/workflows/pages.yml)
+[![Visit Website](https://img.shields.io/badge/Visit-Website-blue?style=for-the-badge&logo=github)](https://chainofnothought.github.io/ChainOfNoThought/)
 
 A sophisticated, accessible writing website built with Jekyll and hosted on GitHub Pages. Features dark mode, customizable font sizing, and a clean, distraction-free reading experience.
 
