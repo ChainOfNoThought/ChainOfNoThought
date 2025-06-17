@@ -55,6 +55,11 @@ collections:
   stories:
     output: true
     permalink: /stories/:path/
+  
+  # Blog posts collection
+  ramblings:
+    output: true
+    permalink: /ramblings/:title/
 
 # Default values to avoid repetition
 defaults:
@@ -80,6 +85,15 @@ defaults:
     values:
       layout: "post"
       category: "stories"
+  
+  # Defaults for blog posts
+  - scope:
+      path: ""
+      type: "ramblings"
+    values:
+      layout: "post"
+      author: "ChainOfNoThought"  # Change this to your name
+      category: "ramblings"
 
 # Minima theme configuration
 # Keep it simple and readable
@@ -97,8 +111,10 @@ minima:
 header_pages:
   - thoughts.md
   - stories.md
+  - ramblings.md
   - prosterity.md
   - about.md
+  - settings.md
 
 # Future-proofing
 future: true  # Publish posts with future dates

@@ -133,7 +133,7 @@ Ah. I need to practice sitting up.
 I have my hands on my chin, deep in thought. An old, *old* habit of mine. I had thought that it would be strange to see a child taking on this pose, but it seemed that my parents found it endearing, so I did not refrain from doing so.
 
 I am trying my best to give them the clues, but it falls on deaf ears.
-g
+
 *He is so strong; he can already stand!*
 
 *He seems to have affinity with mana!*
@@ -142,7 +142,7 @@ g
 
 I am barely eighteen months old and am the envy of other neighbors and other mothers. Even nurses and doctors seem pleasantly surprised to have witnessed my growth. None of them seem to suspect that I may be nearly a century old survivor from the apocalypse, reborn to save the world. In their place, neither would I.
 
-What has me worried now, however, is the protruded belly of my mother. I *did* not have a sibling. So why the sudden change? Perhaps it was the fact that I was such a nice baby to have. Even though my faculties were barely in place, I was an angelic baby. Weaker than most, perhaps, but no less healthy. So, it must have meant that my parents found the courage to try for a second child.
+What has me worried now, however, is the protruded belly of my mother. I *did not* have a sibling. So why the sudden change? Perhaps it was the fact that I was such a nice baby to have. Even though my faculties were barely in place, I was an angelic baby. Weaker than most, perhaps, but no less healthy. So, it must have meant that my parents found the courage to try for a second child.
 
 A wildly exciting prospect – a change in the course of history. But too soon, perhaps. If the world deviated too much from my knowledge, then I could not control it.
 

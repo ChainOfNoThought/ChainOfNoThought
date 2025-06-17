@@ -5,7 +5,11 @@ permalink: /thoughts/
 ---
 
 <div class="thoughts-list">
-{% assign sorted_thoughts = site.thoughts | sort: 'date' | reverse %}
+{% if site.thoughts %}
+  {% assign sorted_thoughts = site.thoughts | sort: 'date' | reverse %}
+{% else %}
+  {% assign sorted_thoughts = "" | split: "" %}
+{% endif %}
 {% for thought in sorted_thoughts %}
   <article class="thought-entry">
     <h2>

@@ -6,7 +6,11 @@ title: on the winds, time, faith, and stars
 
 ## Recent Essays
 
-{% assign recent_thoughts = site.thoughts | sort: 'date' | reverse | limit: 3 %}
+{% if site.thoughts %}
+  {% assign recent_thoughts = site.thoughts | sort: 'date' | reverse | limit: 3 %}
+{% else %}
+  {% assign recent_thoughts = "" | split: "" %}
+{% endif %}
 {% for thought in recent_thoughts %}
 <article class="home-post-preview">
   <h3><a href="{{ thought.url | relative_url }}">{{ thought.title }}</a></h3>
@@ -21,7 +25,11 @@ title: on the winds, time, faith, and stars
 
 ## Recent Stories
 
-{% assign all_stories = site.stories | sort: 'date' | reverse %}
+{% if site.stories %}
+  {% assign all_stories = site.stories | sort: 'date' | reverse %}
+{% else %}
+  {% assign all_stories = "" | split: "" %}
+{% endif %}
 {% assign story_groups = all_stories | group_by: 'story_id' %}
 
 <div class="home-stories">

@@ -2,7 +2,7 @@
 layout: post
 title: "Prologue"
 story_id: "Demon's Protege"
-chapter_number: 1
+chapter_number: 0
 date: 2025-05-26 00:08:35 
 tags: [high fantasy]
 excerpt: ""

@@ -6,6 +6,108 @@
 @import "minima";
 
 // ==========================================================================
+// THEME SYSTEM - CSS Custom Properties for Dark/Light Mode
+// ==========================================================================
+
+// Dark theme (default) - CSS custom properties
+:root {
+  // Main text colors
+  --text-primary: #e6e6e6;
+  --text-secondary: #b8b8b8;
+  --text-muted: #888888;
+  --text-emphasis: #ffffff;
+
+  // Background colors
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-container: #262626;
+  --bg-elevated: #333333;
+
+  // Interactive colors
+  --link-color: #66b3ff;
+  --link-hover: #4da6ff;
+  --link-visited: #9999ff;
+
+  // Border and accent colors
+  --border-primary: #404040;
+  --border-secondary: #555555;
+  --border-accent: #66b3ff;
+
+  // Button colors
+  --btn-bg: #404040;
+  --btn-text: #e6e6e6;
+  --btn-hover-bg: #555555;
+
+  // Code and pre colors
+  --code-bg: #2d2d2d;
+  --code-text: #f0f0f0;
+  --pre-bg: #262626;
+
+  // Tag and meta colors
+  --tag-bg: #404040;
+  --tag-text: #e6e6e6;
+  --meta-text: #b8b8b8;
+
+  // Header/navigation colors
+  --header-bg: rgba(26, 26, 26, 0.95);
+  --header-border: #404040;
+
+  // Footer colors
+  --footer-bg: #1a1a1a;
+  --footer-border: #404040;
+  --footer-text: #b8b8b8;
+}
+
+// Light theme overrides
+[data-theme="light"] {
+  // Main text colors
+  --text-primary: #333333;
+  --text-secondary: #2a2a2a;
+  --text-muted: #6a737d;
+  --text-emphasis: #24292e;
+
+  // Background colors
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-container: #f6f8fa;
+  --bg-elevated: #ffffff;
+
+  // Interactive colors
+  --link-color: #0366d6;
+  --link-hover: #0256cc;
+  --link-visited: #6f42c1;
+
+  // Border and accent colors
+  --border-primary: #e1e4e8;
+  --border-secondary: #d1d5da;
+  --border-accent: #0366d6;
+
+  // Button colors
+  --btn-bg: #ffffff;
+  --btn-text: #24292e;
+  --btn-hover-bg: #f6f8fa;
+
+  // Code and pre colors
+  --code-bg: #f6f8fa;
+  --code-text: #24292e;
+  --pre-bg: #f6f8fa;
+
+  // Tag and meta colors
+  --tag-bg: #f1f8ff;
+  --tag-text: #0366d6;
+  --meta-text: #6a737d;
+
+  // Header/navigation colors
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --header-border: #f0f0f0;
+
+  // Footer colors
+  --footer-bg: #ffffff;
+  --footer-border: #e1e4e8;
+  --footer-text: #6a737d;
+}
+
+// ==========================================================================
 // SIMPLE WRITING WEBSITE STYLES
 // Focus: Readability, simplicity, and clean presentation
 // ==========================================================================
@@ -24,8 +126,9 @@ body {
   // Slightly larger base font size
   font-size: 18px;
   
-  // Softer black for less eye strain
-  color: #333;
+  // Use theme color variable instead of hardcoded color
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
 }
 
 // --------------------------------------------------------------------------
@@ -48,8 +151,8 @@ h1, h2, h3, h4, h5, h6 {
   // Add more space above headers
   margin-top: 2rem;
   
-  // Slightly darker color
-  color: #2a2a2a;
+  // Use theme secondary text color
+  color: var(--text-secondary);
   
   // Better font weight
   font-weight: 600;
@@ -75,10 +178,10 @@ h3 { font-size: 1.2rem; }
   
   // Style blockquotes for emphasis
   blockquote {
-    border-left: 4px solid #0366d6;
+    border-left: 4px solid var(--border-accent);
     padding-left: 1rem;
     margin-left: 0;
-    color: #6a737d;
+    color: var(--text-muted);
     
     p:last-child {
       margin-bottom: 0;
@@ -96,16 +199,18 @@ h3 { font-size: 1.2rem; }
   
   // Code blocks (if you include any)
   pre {
-    background-color: #f6f8fa;
+    background-color: var(--pre-bg);
     border-radius: 6px;
     padding: 1rem;
     overflow-x: auto;
     margin: 2rem 0;
+    color: var(--code-text);
   }
   
   // Inline code
   code {
-    background-color: #f6f8fa;
+    background-color: var(--code-bg);
+    color: var(--code-text);
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-size: 0.9em;
@@ -126,7 +231,7 @@ h3 { font-size: 1.2rem; }
   margin: 2rem auto;
   
   // Add a subtle border
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--border-primary);
   
   // Slight shadow for depth
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -140,33 +245,118 @@ h3 { font-size: 1.2rem; }
 // --------------------------------------------------------------------------
 
 .site-header {
-  // Slightly transparent background
-  background-color: rgba(255, 255, 255, 0.95);
+  // Use theme header background
+  background-color: var(--header-bg);
   
-  // Remove the default border
-  border-bottom: 1px solid #f0f0f0;
+  // Use theme border color
+  border-bottom: 1px solid var(--header-border);
   border-top: none;
 }
 
 .site-title {
-  // Make the site title more prominent
-  font-size: 1.5rem;
+  // Make the site title more prominent and at least as big as h1
+  font-size: 1.9rem;
   font-weight: 400;
   letter-spacing: -0.5px;
+  // Ensure proper color in both light and dark themes
+  color: var(--text-emphasis);
+  text-decoration: none;
+  
+  &:hover {
+    color: var(--text-emphasis);
+    text-decoration: none;
+  }
+  
+  &:visited {
+    color: var(--text-emphasis);
+  }
 }
 
 .site-nav {
-  .page-link {
-    // Better spacing between nav items
-    margin-left: 25px;
+  // Always visible dropdown navigation
+  .nav-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
     
-    // Remove underlines
-    text-decoration: none;
-    
-    // Hover effect
     &:hover {
+      background-color: var(--bg-container);
+      border-color: var(--border-secondary);
+    }
+    
+    &[aria-expanded="true"] {
+      background-color: var(--bg-container);
+      
+      .dropdown-icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  
+  .dropdown-label {
+    font-weight: 500;
+  }
+  
+  .dropdown-icon {
+    transition: transform 0.15s ease-in-out;
+    flex-shrink: 0;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 200px;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0;
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.15s ease-in-out;
+  }
+  
+  .nav-dropdown:hover .dropdown-menu,
+  .dropdown-toggle[aria-expanded="true"] + .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .dropdown-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease-in-out;
+    
+    &:hover {
+      background-color: var(--bg-container);
       text-decoration: none;
-      border-bottom: 2px solid #0366d6;
+    }
+    
+    &:focus {
+      outline: none;
+      background-color: var(--bg-container);
     }
   }
 }
@@ -186,7 +376,7 @@ h3 { font-size: 1.2rem; }
     
     // Subtle separator
     padding-bottom: 2rem;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-primary);
     
     &:last-child {
       border-bottom: none;
@@ -197,7 +387,7 @@ h3 { font-size: 1.2rem; }
 .post-meta {
   // Smaller, lighter date text
   font-size: 0.875rem;
-  color: #6a737d;
+  color: var(--meta-text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -219,8 +409,10 @@ h3 { font-size: 1.2rem; }
   // More padding
   padding: 2rem 0;
   
-  // Lighter border
-  border-top: 1px solid #e1e4e8;
+  // Use theme border and background
+  border-top: 1px solid var(--footer-border);
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
   
   // Smaller text
   font-size: 0.875rem;
@@ -294,7 +486,7 @@ h3 { font-size: 1.2rem; }
 
 // Muted text
 .text-muted {
-  color: #6a737d;
+  color: var(--text-muted);
 }
 
 // Small text
@@ -309,7 +501,7 @@ h3 { font-size: 1.2rem; }
 .post-navigation {
   margin-top: 4rem;
   padding-top: 2rem;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--border-primary);
 }
 
 .post-nav-links {
@@ -379,7 +571,7 @@ h3 { font-size: 1.2rem; }
   font-size: 1.3rem;
   margin-bottom: 2rem;
   text-align: center;
-  color: #2a2a2a;
+  color: var(--text-secondary);
   
   // Optional decorative line
   &:after {
@@ -387,7 +579,7 @@ h3 { font-size: 1.2rem; }
     display: block;
     width: 50px;
     height: 2px;
-    background-color: #e8e8e8;
+    background-color: var(--border-primary);
     margin: 1rem auto 0;
   }
 }
@@ -401,7 +593,7 @@ h3 { font-size: 1.2rem; }
   
   time {
     font-size: 0.875rem;
-    color: #6a737d;
+    color: var(--meta-text);
   }
   
   p {
@@ -413,7 +605,7 @@ h3 { font-size: 1.2rem; }
   .story-preview {
     margin-bottom: 2rem;
     padding: 1rem;
-    background-color: #f6f8fa;
+    background-color: var(--bg-container);
     border-radius: 6px;
     
     h3 {
@@ -422,7 +614,7 @@ h3 { font-size: 1.2rem; }
     
     .story-desc {
       font-style: italic;
-      color: #586069;
+      color: var(--text-muted);
       margin: 0.5rem 0;
     }
     
@@ -443,7 +635,7 @@ h3 { font-size: 1.2rem; }
   .thought-entry, .standalone-story {
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid #e1e4e8;
+    border-bottom: 1px solid var(--border-primary);
     
     &:last-child {
       border-bottom: none;
@@ -452,7 +644,7 @@ h3 { font-size: 1.2rem; }
   
   .thought-link, .story-link {
     font-size: 1.3rem;
-    color: #0366d6;
+    color: var(--link-color);
     text-decoration: none;
     
     &:hover {
@@ -469,19 +661,19 @@ h3 { font-size: 1.2rem; }
 .story-collection {
   margin-bottom: 3rem;
   padding: 1.5rem;
-  background-color: #f6f8fa;
+  background-color: var(--bg-container);
   border-radius: 8px;
   
   .story-title {
     margin-top: 0;
-    color: #24292e;
+    color: var(--text-emphasis);
     
     a {
       color: inherit;
       text-decoration: none;
       
       &:hover {
-        color: #0366d6;
+        color: var(--link-color);
         text-decoration: underline;
       }
     }
@@ -489,7 +681,7 @@ h3 { font-size: 1.2rem; }
   
   .story-description {
     font-style: italic;
-    color: #586069;
+    color: var(--text-muted);
     margin-bottom: 1.5rem;
   }
   
@@ -512,14 +704,14 @@ h3 { font-size: 1.2rem; }
           content: "→";
           position: absolute;
           left: 0;
-          color: #0366d6;
+          color: var(--link-color);
         }
       }
     }
     
     .chapter-date {
       font-size: 0.875rem;
-      color: #6a737d;
+      color: var(--meta-text);
       margin-left: 0.5rem;
     }
   }
@@ -527,7 +719,7 @@ h3 { font-size: 1.2rem; }
   .recent-chapters {
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid #e1e4e8;
+    border-top: 1px solid var(--border-primary);
   }
 }
 
@@ -537,8 +729,8 @@ h3 { font-size: 1.2rem; }
     margin-bottom: 2rem;
     
     h2 {
-      color: #0366d6;
-      border-bottom: 2px solid #e1e4e8;
+      color: var(--link-color);
+      border-bottom: 2px solid var(--border-primary);
       padding-bottom: 0.5rem;
     }
   }
@@ -548,7 +740,7 @@ h3 { font-size: 1.2rem; }
     
     h3 {
       font-size: 1.1rem;
-      color: #586069;
+      color: var(--text-muted);
     }
   }
   
@@ -565,18 +757,18 @@ h3 { font-size: 1.2rem; }
         position: absolute;
         left: 0;
         font-size: 0.875rem;
-        color: #6a737d;
+        color: var(--meta-text);
       }
       
       .archive-type {
         font-size: 0.875rem;
-        color: #6a737d;
+        color: var(--meta-text);
         margin-left: 0.5rem;
       }
       
       .archive-tags {
         font-size: 0.875rem;
-        color: #0366d6;
+        color: var(--link-color);
         margin-left: 0.5rem;
       }
     }
@@ -586,7 +778,7 @@ h3 { font-size: 1.2rem; }
 .archive-stats {
   margin-top: 2rem;
   padding: 1rem;
-  background-color: #f6f8fa;
+  background-color: var(--bg-container);
   border-radius: 6px;
   
   p {
@@ -597,8 +789,8 @@ h3 { font-size: 1.2rem; }
 
 // Tags and categories
 .tag, .post-tag {
-  background-color: #f1f8ff;
-  color: #0366d6;
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
   padding: 0.2em 0.5em;
   border-radius: 3px;
   font-size: 0.875rem;
@@ -606,7 +798,7 @@ h3 { font-size: 1.2rem; }
 
 // Footer
 .site-footer {
-  border-top: 1px solid #e1e4e8;
+  border-top: 1px solid var(--footer-border);
   padding: 2rem 0;
   
   .footer-col {
@@ -620,7 +812,7 @@ h3 { font-size: 1.2rem; }
 }
 
 .text-muted {
-  color: #6a737d;
+  color: var(--text-muted);
 }
 
 .text-small {
@@ -629,7 +821,7 @@ h3 { font-size: 1.2rem; }
 
 .no-content {
   text-align: center;
-  color: #6a737d;
+  color: var(--text-muted);
   font-style: italic;
   padding: 3rem 0;
 }
@@ -687,9 +879,9 @@ h3 { font-size: 1.2rem; }
 .search-container {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background-color: #f6f8fa;
+  background-color: var(--bg-container);
   border-radius: 8px;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--border-primary);
 }
 
 .search-input {
@@ -697,27 +889,28 @@ h3 { font-size: 1.2rem; }
   padding: 0.75rem 1rem;
   font-size: 1rem;
   font-family: inherit;
-  border: 2px solid #e1e4e8;
+  border: 2px solid var(--border-primary);
   border-radius: 6px;
-  background-color: white;
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
   transition: border-color 0.15s ease-in-out;
   box-sizing: border-box;
   
   &:focus {
     outline: none;
-    border-color: #0366d6;
-    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.1);
+    border-color: var(--link-color);
+    box-shadow: 0 0 0 3px rgba(102, 179, 255, 0.1);
   }
   
   &::placeholder {
-    color: #6a737d;
+    color: var(--text-muted);
   }
 }
 
 .search-hint {
   margin: 0.5rem 0 0 0;
   font-size: 0.875rem;
-  color: #6a737d;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -725,7 +918,7 @@ h3 { font-size: 1.2rem; }
 .no-results {
   text-align: center;
   padding: 3rem 1rem;
-  background-color: #f6f8fa;
+  background-color: var(--bg-container);
   border-radius: 8px;
   margin: 2rem 0;
   
@@ -735,11 +928,11 @@ h3 { font-size: 1.2rem; }
   
   .search-term {
     font-weight: 600;
-    color: #24292e;
+    color: var(--text-emphasis);
   }
   
   .clear-search {
-    color: #0366d6;
+    color: var(--link-color);
     text-decoration: none;
     
     &:hover {
@@ -752,7 +945,7 @@ h3 { font-size: 1.2rem; }
 .archive-stats {
   .showing-count {
     font-weight: 600;
-    color: #0366d6;
+    color: var(--link-color);
   }
 }
 
@@ -795,9 +988,9 @@ h3 { font-size: 1.2rem; }
 .story-navigation {
   margin-top: 4rem;
   padding: 2rem;
-  background-color: #f6f8fa;
+  background-color: var(--bg-container);
   border-radius: 8px;
-  border: 1px solid #e1e4e8;
+  border: 1px solid var(--border-primary);
 }
 
 .story-nav-container {
@@ -808,19 +1001,19 @@ h3 { font-size: 1.2rem; }
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e1e4e8;
+  border-bottom: 1px solid var(--border-primary);
   
   .story-nav-title {
     display: block;
     font-size: 1.2rem;
     font-weight: 600;
-    color: #24292e;
+    color: var(--text-emphasis);
     margin-bottom: 0.5rem;
   }
   
   .story-nav-chapter {
     font-size: 0.875rem;
-    color: #6a737d;
+    color: var(--text-muted);
     font-style: italic;
   }
 }
@@ -844,7 +1037,7 @@ h3 { font-size: 1.2rem; }
   .nav-label {
     display: block;
     font-size: 0.875rem;
-    color: #6a737d;
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
     font-weight: 500;
   }
@@ -852,11 +1045,11 @@ h3 { font-size: 1.2rem; }
   .nav-link {
     display: block;
     text-decoration: none;
-    color: #0366d6;
+    color: var(--link-color);
     transition: color 0.15s ease-in-out;
     
     &:hover {
-      color: #0256cc;
+      color: var(--link-hover);
       text-decoration: none;
       
       .nav-title {
@@ -885,7 +1078,7 @@ h3 { font-size: 1.2rem; }
     .nav-placeholder {
       display: block;
       font-size: 0.875rem;
-      color: #6a737d;
+      color: var(--text-muted);
       font-style: italic;
       margin-top: 0.5rem;
     }
@@ -895,7 +1088,7 @@ h3 { font-size: 1.2rem; }
 .story-nav-index {
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid #e1e4e8;
+  border-top: 1px solid var(--border-primary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -905,30 +1098,30 @@ h3 { font-size: 1.2rem; }
   .story-index-link, .back-to-top-link {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: #ffffff;
-    border: 1px solid #d1d5da;
+    background-color: var(--btn-bg);
+    border: 1px solid var(--border-secondary);
     border-radius: 6px;
-    color: #586069;
+    color: var(--btn-text);
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.15s ease-in-out;
     
     &:hover {
-      background-color: #f6f8fa;
-      border-color: #c6cbd1;
-      color: #24292e;
+      background-color: var(--btn-hover-bg);
+      border-color: var(--border-primary);
+      color: var(--text-emphasis);
       text-decoration: none;
     }
   }
   
   .back-to-top-link {
-    background-color: #f6f8fa;
-    border-color: #c6cbd1;
+    background-color: var(--bg-container);
+    border-color: var(--border-primary);
     
     &:hover {
-      background-color: #e1e4e8;
-      border-color: #b1b7c1;
+      background-color: var(--bg-secondary);
+      border-color: var(--border-secondary);
     }
   }
 }

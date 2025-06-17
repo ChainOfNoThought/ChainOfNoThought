@@ -17,7 +17,16 @@ An archive of writings, sorted by date.
 
 <div class="archive-list">
   {% comment %} Combine all collections into one array {% endcomment %}
-  {% assign all_posts = site.thoughts | concat: site.stories %}
+  {% assign all_posts = "" | split: "" %}
+  {% if site.thoughts %}
+    {% assign all_posts = all_posts | concat: site.thoughts %}
+  {% endif %}
+  {% if site.stories %}
+    {% assign all_posts = all_posts | concat: site.stories %}
+  {% endif %}
+  {% if site.ramblings %}
+    {% assign all_posts = all_posts | concat: site.ramblings %}
+  {% endif %}
   {% assign all_posts = all_posts | sort: 'date' | reverse %}
   
   {% comment %} Group posts by year {% endcomment %}
@@ -49,6 +58,8 @@ An archive of writings, sorted by date.
                     [thought]
                   {% elsif post.collection == 'stories' %}
                     [story{% if post.chapter_number %}, ch.{{ post.chapter_number }}{% endif %}]
+                  {% elsif post.collection == 'ramblings' %}
+                    [blog]
                   {% endif %}
                 </span>
                 {% if post.tags %}
@@ -82,7 +93,8 @@ An archive of writings, sorted by date.
     <strong>Total writings:</strong> <span class="total-count">{{ all_posts.size }}</span><br>
     <strong>Showing:</strong> <span class="showing-count">{{ all_posts.size }}</span><br>
     <strong>Thoughts:</strong> {{ site.thoughts.size }}<br>
-    <strong>Stories:</strong> {{ site.stories.size }}
+    <strong>Stories:</strong> {{ site.stories.size }}<br>
+    <strong>ramblings:</strong> {{ site.ramblings.size }}
   </p>
 </div>
 

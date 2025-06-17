@@ -10,7 +10,11 @@ permalink: /stories/
   Stories should have 'story_id' in their front matter to group chapters
 {% endcomment %}
 
-{% assign all_stories = site.stories | sort: 'date' | reverse %}
+{% if site.stories %}
+  {% assign all_stories = site.stories | sort: 'date' | reverse %}
+{% else %}
+  {% assign all_stories = "" | split: "" %}
+{% endif %}
 {% assign story_groups = all_stories | group_by: 'story_id' %}
 
 {% for story_group in story_groups %}

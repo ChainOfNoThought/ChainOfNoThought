@@ -2,7 +2,7 @@
 
 [![Visit Website](https://img.shields.io/badge/Visit-Website-blue?style=for-the-badge&logo=github)](https://chainofnothought.github.io/ChainOfNoThought/)
 
-A sophisticated, accessible writing website built with Jekyll and hosted on GitHub Pages. Features dark mode, customizable font sizing, and a clean, distraction-free reading experience.
+A sophisticated, accessible writing website built with Jekyll and hosted on GitHub Pages. Features dark mode and a clean, distraction-free reading experience.
 
 ## Overview
 
@@ -11,7 +11,6 @@ This is a feature-rich writing website designed to showcase:
 - Creative writing pieces and stories (in `_stories/` collection)
 - Archive functionality with search capabilities
 - **Dark mode with automatic persistence across pages**
-- **Granular font size controls for accessibility**
 - Simple, distraction-free reading experience
 - Mobile-responsive design
 
@@ -146,20 +145,7 @@ Edit the CSS custom properties in `assets/css/style.scss`:
 }
 ```
 
-### Font Settings
-Default font settings can be modified in `_layouts/default.html`:
 
-```javascript
-const defaultSettings = {
-  theme: 'dark', // 'light' or 'dark'
-  fontSize: {
-    base: 18,      // Base font size in pixels
-    heading: 1.0,  // Heading scale multiplier
-    content: 1.0,  // Content scale multiplier
-    meta: 1.0      // Meta text scale multiplier
-  }
-};
-```
 
 ## Deployment
 
@@ -180,9 +166,9 @@ This site automatically deploys via GitHub Actions when you push to the `main` b
 
 Key files:
 - `_config.yml` - Site configuration and collections
-- `_layouts/default.html` - Main layout with settings system
+- `_layouts/default.html` - Main layout with theme system
 - `assets/css/style.scss` - Comprehensive theming and responsive design
-- `assets/js/settings.js` - Settings management and persistence
+- `assets/js/settings.js` - Theme settings management and persistence
 - `.github/workflows/pages.yml` - GitHub Actions deployment
 
 ## Documentation
@@ -198,7 +184,6 @@ Comprehensive documentation is available in the `docs/` directory:
 ## Accessibility Features
 
 - **High contrast themes** for better readability
-- **Scalable font sizes** for vision accessibility
 - **Keyboard navigation** support
 - **Screen reader friendly** markup
 - **Print-optimized** styles
@@ -209,7 +194,7 @@ Comprehensive documentation is available in the `docs/` directory:
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 - Graceful degradation for older browsers
-- JavaScript required for theme/font controls
+- JavaScript required for theme switching
 
 ## Important Limits
 
@@ -220,11 +205,6 @@ GitHub Pages has the following constraints:
 - Build time: 10 minutes maximum
 
 ## Troubleshooting
-
-### Settings Not Persisting
-- Ensure JavaScript is enabled
-- Check that URL parameters are being preserved
-- Verify no browser extensions are interfering
 
 ### Theme Not Switching
 - Check browser console for JavaScript errors
@@ -260,6 +240,6 @@ This project is for personal, non-commercial use only, in accordance with GitHub
 - **Jekyll Version**: Compatible with GitHub Pages
 - **Theme**: Minima with extensive customizations
 - **CSS**: SCSS with CSS custom properties for theming
-- **JavaScript**: Vanilla JS for settings management
+- **JavaScript**: Vanilla JS for theme management
 - **Persistence**: URL parameter-based (no cookies/localStorage)
 - **Responsive**: Mobile-first design approach

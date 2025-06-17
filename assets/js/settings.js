@@ -1,6 +1,6 @@
 /**
  * Settings Management for ChainOfNoThought
- * Handles theme switching and font size controls with URL persistence
+ * Handles theme switching with URL persistence
  */
 
 (function() {
@@ -8,16 +8,39 @@
 
   // Default settings
   const defaultSettings = {
-    theme: 'dark',
-    fontSize: {
-      base: 18,
-      heading: 1.0,
-      content: 1.0,
-      meta: 1.0
-    }
+    theme: 'dark'
   };
 
   let currentSettings = { ...defaultSettings };
+
+  /**
+   * Get settings from sessionStorage
+   */
+  function getSettingsFromStorage() {
+    try {
+      const stored = sessionStorage.getItem('chainOfNoThoughtSettings');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return {
+          theme: parsed.theme || defaultSettings.theme
+        };
+      }
+    } catch (e) {
+      console.warn('Failed to load settings from sessionStorage:', e);
+    }
+    return { ...defaultSettings };
+  }
+
+  /**
+   * Save settings to sessionStorage
+   */
+  function saveSettingsToStorage(settings) {
+    try {
+      sessionStorage.setItem('chainOfNoThoughtSettings', JSON.stringify(settings));
+    } catch (e) {
+      console.warn('Failed to save settings to sessionStorage:', e);
+    }
+  }
 
   /**
    * Get settings from URL parameters
@@ -30,82 +53,52 @@
       settings.theme = params.get('theme');
     }
     
-    if (params.has('fontSize')) {
-      settings.fontSize.base = parseInt(params.get('fontSize')) || defaultSettings.fontSize.base;
-    }
-    
-    if (params.has('headingScale')) {
-      settings.fontSize.heading = parseFloat(params.get('headingScale')) || defaultSettings.fontSize.heading;
-    }
-    
-    if (params.has('contentScale')) {
-      settings.fontSize.content = parseFloat(params.get('contentScale')) || defaultSettings.fontSize.content;
-    }
-    
-    if (params.has('metaScale')) {
-      settings.fontSize.meta = parseFloat(params.get('metaScale')) || defaultSettings.fontSize.meta;
-    }
-    
     return settings;
+  }
+
+  /**
+   * Get settings with priority: sessionStorage → URL → defaults
+   */
+  function getCurrentSettings() {
+    // First check sessionStorage for normal browsing persistence
+    const storedSettings = getSettingsFromStorage();
+    
+    // Only use URL parameters if they're different from stored settings (for sharing/bookmarking)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('theme')) {
+      const urlSettings = getSettingsFromURL();
+      // If URL theme is different from stored, use URL (someone shared a link)
+      if (urlSettings.theme !== storedSettings.theme) {
+        return urlSettings;
+      }
+    }
+    
+    // Use sessionStorage settings for normal browsing
+    return storedSettings;
   }
 
   /**
    * Apply settings to the page
    */
-  function applySettings(settings) {
+  function applySettings(settings, saveToStorage = true) {
     // Apply theme
     document.documentElement.setAttribute('data-theme', settings.theme);
     
-    // Apply font sizes using CSS custom properties
-    const root = document.documentElement;
-    root.style.setProperty('--base-font-size', settings.fontSize.base + 'px');
-    root.style.setProperty('--heading-scale', settings.fontSize.heading);
-    root.style.setProperty('--content-scale', settings.fontSize.content);
-    root.style.setProperty('--meta-scale', settings.fontSize.meta);
+    // Save to sessionStorage unless explicitly disabled
+    if (saveToStorage) {
+      saveSettingsToStorage(settings);
+    }
   }
 
   /**
-   * Update all internal links with current settings
+   * Clean theme parameters from internal links (let sessionStorage handle persistence)
    */
-  function updateAllLinks(settings) {
-    const params = new URLSearchParams();
-    
-    if (settings.theme !== defaultSettings.theme) {
-      params.set('theme', settings.theme);
-    }
-    
-    if (settings.fontSize.base !== defaultSettings.fontSize.base) {
-      params.set('fontSize', settings.fontSize.base);
-    }
-    
-    if (settings.fontSize.heading !== defaultSettings.fontSize.heading) {
-      params.set('headingScale', settings.fontSize.heading);
-    }
-    
-    if (settings.fontSize.content !== defaultSettings.fontSize.content) {
-      params.set('contentScale', settings.fontSize.content);
-    }
-    
-    if (settings.fontSize.meta !== defaultSettings.fontSize.meta) {
-      params.set('metaScale', settings.fontSize.meta);
-    }
-    
-    const queryString = params.toString();
-    
-    // Update all internal links
-    document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="#"]').forEach(link => {
-      if (link.href.includes('#') && !link.href.includes('?')) {
-        // Handle anchor links
-        return;
-      }
-      
+  function cleanInternalLinks() {
+    // Remove theme parameters from internal links - let sessionStorage handle persistence
+    document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]').forEach(link => {
       try {
         const url = new URL(link.href);
-        if (queryString) {
-          url.search = queryString;
-        } else {
-          url.search = '';
-        }
+        url.searchParams.delete('theme');
         link.href = url.toString();
       } catch (e) {
         // Skip invalid URLs
@@ -119,22 +112,8 @@
   function toggleTheme() {
     currentSettings.theme = currentSettings.theme === 'dark' ? 'light' : 'dark';
     applySettings(currentSettings);
-    updateAllLinks(currentSettings);
-    updateURL(currentSettings);
-  }
-
-  /**
-   * Update font size setting
-   */
-  function updateFontSize(type, value) {
-    if (type === 'base') {
-      currentSettings.fontSize.base = parseInt(value);
-    } else {
-      currentSettings.fontSize[type] = parseFloat(value);
-    }
-    applySettings(currentSettings);
-    updateAllLinks(currentSettings);
-    updateURL(currentSettings);
+    cleanInternalLinks();
+    cleanCurrentURL();
   }
 
   /**
@@ -143,41 +122,40 @@
   function resetSettings() {
     currentSettings = { ...defaultSettings };
     applySettings(currentSettings);
-    updateAllLinks(currentSettings);
-    updateURL(currentSettings);
+    cleanInternalLinks();
+    cleanCurrentURL();
     
     // Update form controls if they exist
     updateFormControls();
   }
 
   /**
-   * Update URL with current settings
+   * Update settings from settings page controls
    */
-  function updateURL(settings) {
-    const params = new URLSearchParams();
-    
-    if (settings.theme !== defaultSettings.theme) {
-      params.set('theme', settings.theme);
+  function updateSettingsFromForm() {
+    // Get theme from radio buttons
+    const themeRadios = document.querySelectorAll('input[name="theme"]');
+    for (const radio of themeRadios) {
+      if (radio.checked) {
+        currentSettings.theme = radio.value;
+        break;
+      }
     }
     
-    if (settings.fontSize.base !== defaultSettings.fontSize.base) {
-      params.set('fontSize', settings.fontSize.base);
-    }
-    
-    if (settings.fontSize.heading !== defaultSettings.fontSize.heading) {
-      params.set('headingScale', settings.fontSize.heading);
-    }
-    
-    if (settings.fontSize.content !== defaultSettings.fontSize.content) {
-      params.set('contentScale', settings.fontSize.content);
-    }
-    
-    if (settings.fontSize.meta !== defaultSettings.fontSize.meta) {
-      params.set('metaScale', settings.fontSize.meta);
-    }
-    
-    const queryString = params.toString();
-    const newURL = window.location.pathname + (queryString ? '?' + queryString : '');
+    // Apply and persist settings
+    applySettings(currentSettings);
+    cleanInternalLinks();
+    cleanCurrentURL();
+    updateFormControls();
+  }
+
+  /**
+   * Clean theme parameters from current URL (let sessionStorage handle persistence)
+   */
+  function cleanCurrentURL() {
+    const url = new URL(window.location);
+    url.searchParams.delete('theme');
+    const newURL = url.pathname + (url.search || '');
     window.history.replaceState({}, '', newURL);
   }
 
@@ -185,59 +163,16 @@
    * Update form controls to match current settings
    */
   function updateFormControls() {
-    // Theme toggle
+    // Theme radio buttons
+    const themeRadios = document.querySelectorAll('input[name="theme"]');
+    themeRadios.forEach(radio => {
+      radio.checked = radio.value === currentSettings.theme;
+    });
+    
+    // Legacy theme toggle (if it exists)
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
       themeToggle.checked = currentSettings.theme === 'light';
-    }
-    
-    // Font size controls
-    const fontSizeSlider = document.getElementById('font-size');
-    if (fontSizeSlider) {
-      fontSizeSlider.value = currentSettings.fontSize.base;
-    }
-    
-    const headingScaleSlider = document.getElementById('heading-scale');
-    if (headingScaleSlider) {
-      headingScaleSlider.value = currentSettings.fontSize.heading;
-    }
-    
-    const contentScaleSlider = document.getElementById('content-scale');
-    if (contentScaleSlider) {
-      contentScaleSlider.value = currentSettings.fontSize.content;
-    }
-    
-    const metaScaleSlider = document.getElementById('meta-scale');
-    if (metaScaleSlider) {
-      metaScaleSlider.value = currentSettings.fontSize.meta;
-    }
-    
-    // Update display values
-    updateDisplayValues();
-  }
-
-  /**
-   * Update display values for sliders
-   */
-  function updateDisplayValues() {
-    const fontSizeValue = document.getElementById('font-size-value');
-    if (fontSizeValue) {
-      fontSizeValue.textContent = currentSettings.fontSize.base + 'px';
-    }
-    
-    const headingScaleValue = document.getElementById('heading-scale-value');
-    if (headingScaleValue) {
-      headingScaleValue.textContent = Math.round(currentSettings.fontSize.heading * 100) + '%';
-    }
-    
-    const contentScaleValue = document.getElementById('content-scale-value');
-    if (contentScaleValue) {
-      contentScaleValue.textContent = Math.round(currentSettings.fontSize.content * 100) + '%';
-    }
-    
-    const metaScaleValue = document.getElementById('meta-scale-value');
-    if (metaScaleValue) {
-      metaScaleValue.textContent = Math.round(currentSettings.fontSize.meta * 100) + '%';
     }
   }
 
@@ -245,12 +180,13 @@
    * Initialize settings system
    */
   function init() {
-    // Get settings from URL
-    currentSettings = getSettingsFromURL();
+    // Get settings with priority: sessionStorage → URL → defaults
+    currentSettings = getCurrentSettings();
     
-    // Apply settings
-    applySettings(currentSettings);
-    updateAllLinks(currentSettings);
+    // Apply settings and ensure they're saved to sessionStorage
+    applySettings(currentSettings, true);
+    cleanInternalLinks();
+    cleanCurrentURL();
     
     // Set up event listeners
     document.addEventListener('click', function(e) {
@@ -263,31 +199,22 @@
         e.preventDefault();
         resetSettings();
       }
+      
+      if (e.target.id === 'apply-settings-btn') {
+        e.preventDefault();
+        updateSettingsFromForm();
+      }
     });
     
-    document.addEventListener('input', function(e) {
+    document.addEventListener('change', function(e) {
+      // Settings page theme radio buttons
+      if (e.target.name === 'theme') {
+        updateSettingsFromForm();
+      }
+      
+      // Legacy theme toggle
       if (e.target.id === 'theme-toggle') {
         toggleTheme();
-      }
-      
-      if (e.target.id === 'font-size') {
-        updateFontSize('base', e.target.value);
-        updateDisplayValues();
-      }
-      
-      if (e.target.id === 'heading-scale') {
-        updateFontSize('heading', e.target.value);
-        updateDisplayValues();
-      }
-      
-      if (e.target.id === 'content-scale') {
-        updateFontSize('content', e.target.value);
-        updateDisplayValues();
-      }
-      
-      if (e.target.id === 'meta-scale') {
-        updateFontSize('meta', e.target.value);
-        updateDisplayValues();
       }
     });
     
@@ -298,9 +225,9 @@
     window.ChainOfNoThoughtSettings = {
       current: currentSettings,
       toggle: toggleTheme,
-      updateFontSize: updateFontSize,
       reset: resetSettings,
-      apply: applySettings
+      apply: applySettings,
+      updateFromForm: updateSettingsFromForm
     };
   }
 
